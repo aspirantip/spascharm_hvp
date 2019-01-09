@@ -1,17 +1,34 @@
 #ifndef HVSYSTEM_H
 #define HVSYSTEM_H
 
+#include <QObject>
 #include <QDebug>
 
 #include "CAENHVWrapper.h"
 
-class HVSystem
+class HVSystem : public QObject
 {
+    Q_OBJECT
 public:
-    HVSystem();
+    explicit HVSystem(QObject *parent = nullptr);
     ~HVSystem();
 
+signals:
+
+public slots:
     void Login();
+    void Logout();
+    void getCrateMap();
+    void getChannelName();
+    void getChannelParameters();
+
+
+
+
+private:
+    bool f_connect;
+    int  handle;
+
 };
 
-#endif // HVSYSTEM_H
+#endif // HV SYSTEM_H

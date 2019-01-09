@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
+#include <QPushButton>
 
 #include "hvsystem.h"
 
@@ -20,6 +22,10 @@ public:
 private:
     Ui::MainWindow *ui;
     HVSystem hvs;
+    QTimer timer;
+
+
+    void CreateConnection();
 };
 
 #endif // MAINWINDOW_H

@@ -1,3 +1,4 @@
 *.auto
 libs/
 *.pro.user*
+*.autosave
