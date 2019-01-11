@@ -122,10 +122,63 @@ void HVSystem::getCrateMap()
 
 void HVSystem::getChannelName()
 {
+    qDebug() << "HVSystem::getChannelName() ...";
 
+    if (!f_connect){
+        qDebug() << "No connection to power supply!";
+        return;
+    }
+
+
+    CAENHVRESULT    ret     {-1};
+    ushort          slot    {0};    // slot number
+    const ushort    numChan {12};   // number of channels
+    ushort          listChan [numChan];
+    //unsigned short listChan [2048];
+    //char  (*listNameCh)[MAX_CH_NAME];
+    char  listNameCh[numChan][MAX_CH_NAME];     // из-за этого могут быть проблемы?
+
+
+    for (ushort i {0}; i < numChan; i++)
+    {
+        listChan[i] = i;
+    }
+
+    //listNameCh = (char *) malloc(numChan * MAX_CH_NAME);
+
+    /*
+    for (auto i {0}; i < numChan; i++)
+        listNameCh = (char *) malloc(MAX_CH_NAME);
+    */
+
+    ret = CAENHV_GetChName(handle, slot, numChan, listChan, listNameCh);
+    if( ret != CAENHV_OK )
+    {
+        //free(listNameCh);
+        qDebug() << QString("CAENHV_GetChName: %1 (num. %2)\n").arg(CAENHV_GetError(handle)).arg(ret);
+        return;
+    }
+    else
+    {
+        qDebug() << "Channel name:";
+        for(auto i {0}; i < numChan; i++ )
+            qDebug() << QString("Channel n. %1: %1\n").arg(listChan[i]).arg(listNameCh[i]);
+    }
+
+
+    /* per quando era definito come un array di puntatori a char
+    for( n = 0; n < NrOfCh; n++)
+        free(listNameCh[n]);
+    */
+    //free(listNameCh);
 }
 
 void HVSystem::getChannelParameters()
+{
+
+}
+
+void HVSystem::setChannelParameters()
 {
 
 }

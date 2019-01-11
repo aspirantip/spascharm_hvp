@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QDebug>
 
+#include <cstdlib>
+
 #include "CAENHVWrapper.h"
 
 class HVSystem : public QObject
@@ -21,6 +23,7 @@ public slots:
     void getCrateMap();
     void getChannelName();
     void getChannelParameters();
+    void setChannelParameters();
 
 
 
