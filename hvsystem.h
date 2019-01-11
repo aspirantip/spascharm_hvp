@@ -32,6 +32,18 @@ private:
     bool f_connect;
     int  handle;
 
+    CAENHVRESULT    ret     {-1};
+
+    // module parameters
+    static constexpr ushort     slot    {4};    // slot number
+    static constexpr ushort     numChan {12};   // number of channels
+
+
+    ushort  listChan [numChan];
+
+
+    void initSystem();
+
 };
 
 #endif // HV SYSTEM_H

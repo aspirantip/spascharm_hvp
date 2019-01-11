@@ -14,6 +14,24 @@ HVSystem::~HVSystem()
 
 }
 
+void HVSystem::initSystem()
+{
+    qDebug() << "HVSystem::initSystem() ...";
+
+
+    f_connect = true;
+
+    // [1] channel number initialization
+    for (ushort i {0}; i < numChan; i++)
+        listChan[i] = i;
+
+    // [2] getting channel names
+    // getChannelName ();
+
+    // [3] ...
+
+}
+
 void HVSystem::Login()
 {
     qDebug() << "HVSystem::Login() ...";
@@ -36,7 +54,7 @@ void HVSystem::Login()
     qDebug() << QString("CAENHV_InitSystem: %1 (num. %2)").arg( CAENHV_GetError(sysHndl) ).arg( ret );
     if( ret == CAENHV_OK ){
         handle = sysHndl;
-        f_connect = true;
+        initSystem();
     }
 }
 
@@ -130,19 +148,24 @@ void HVSystem::getChannelName()
     }
 
 
-    CAENHVRESULT    ret     {-1};
-    ushort          slot    {0};    // slot number
-    const ushort    numChan {12};   // number of channels
-    ushort          listChan [numChan];
+    //CAENHVRESULT    ret     {-1};
+    //ushort          slot    {0};    // slot number
+    //const ushort    numChan {12};   // number of channels
+
+    //ushort          listChan [numChan];
     //unsigned short listChan [2048];
+
     //char  (*listNameCh)[MAX_CH_NAME];
     char  listNameCh[numChan][MAX_CH_NAME];     // из-за этого могут быть проблемы?
 
 
+    // эту функцию вынести в процес инициализации,
+    // так как она повторяется несколько раз, и по суте едина везде
+    /*
     for (ushort i {0}; i < numChan; i++)
     {
         listChan[i] = i;
-    }
+    }*/
 
     //listNameCh = (char *) malloc(numChan * MAX_CH_NAME);
 
@@ -175,6 +198,54 @@ void HVSystem::getChannelName()
 
 void HVSystem::getChannelParameters()
 {
+    qDebug() << "HVSystem::getChannelParameters() ...";
+
+    if (!f_connect){
+        qDebug() << "No connection to power supply!";
+        return;
+    }
+
+
+    char namePar[]      {"V0Set"};       // узнать точное значение !!!
+    float *fListParVal  {nullptr};
+    ulong *lListParVal  {nullptr};
+    ulong type          {0};
+
+
+    // [1] determine the type of the parameter value
+    ret = CAENHV_GetChParamProp(handle, slot, listChan[0], namePar, "Type", &type);
+    if( ret != CAENHV_OK )
+    {
+        qDebug() << QString("CAENHV_GetChParamProp: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
+        return;
+    }
+
+    // [2] get the value of the parameter
+    if( type == PARAM_TYPE_NUMERIC )
+    {
+        fListParVal = static_cast<float *>(malloc(sizeof(float) * numChan));
+        ret = CAENHV_GetChParam(handle, slot, namePar, numChan, listChan, fListParVal);
+    }
+    else
+    {
+        lListParVal = static_cast<ulong *>(malloc(sizeof(long) * numChan));
+        ret = CAENHV_GetChParam(handle, slot, namePar, numChan, listChan, lListParVal);
+    }
+
+    if( ret != CAENHV_OK )
+        qDebug() << QString("CAENHV_GetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
+    else
+    {
+        qDebug() << "\nParameter value";
+        for(auto i {0}; i < numChan; i++ )
+            qDebug() << QString("Slot: %1  Ch: %2  %3: %4").arg(slot).arg(listChan[i]).arg(namePar).arg(fListParVal[i]);
+    }
+
+    // [3] release resources
+    if (fListParVal != nullptr)
+        free (fListParVal);
+    if (lListParVal != nullptr)
+        free (lListParVal);
 
 }
 
