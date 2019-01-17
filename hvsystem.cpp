@@ -213,6 +213,8 @@ void HVSystem::getChannelParameters()
 
 
     // [1] determine the type of the parameter value
+    // для конкретных функций (установка напряжения) можно пропостить этот этап
+    // так как тип данных не меняется и соответственно выяснять его постоянно не нужно
     ret = CAENHV_GetChParamProp(handle, slot, listChan[0], namePar, "Type", &type);
     if( ret != CAENHV_OK )
     {
@@ -251,5 +253,46 @@ void HVSystem::getChannelParameters()
 
 void HVSystem::setChannelParameters()
 {
+    // задавать напряжение надо не вовсех каналах!
+    // устанавливать значение можно в одном канале, а можно сразу во всех
+
+    qDebug() << "HVSystem::setChannelParameters() ...";
+
+    if (!f_connect){
+        qDebug() << "No connection to power supply!";
+        return;
+    }
+
+
+    char namePar[]{"V0Set"};
+    ulong type          {0};
+    ulong lValPar       {1000};
+    float fValPar       {1000.};
+
+    ushort nmChan       {1};    // number of channels
+    ushort chan[1]      {4};    // array of channel numbers
+
+    // [1] задаем каналы, с которыми работаем
+    //      1/1 enter number of channel(s)
+    //      1/2 enter channel (loop)
+
+    // [2]
+    ret = CAENHV_GetChParamProp(handle, slot, listChan[0], namePar, "Type", &type);
+    if( ret != CAENHV_OK )
+    {
+        qDebug() << QString("CAENHV_GetChParamProp: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
+        return;
+    }
+
+    qDebug() << QString("Value %1").arg(namePar);
+    if( type == PARAM_TYPE_NUMERIC ){
+        ret = CAENHV_SetChParam(handle, slot, namePar, nmChan, chan, &fValPar);
+    }
+    else {
+        ret = CAENHV_SetChParam(handle, slot, namePar, nmChan, chan, &lValPar);
+    }
+
+    qDebug() << QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
+
 
 }
