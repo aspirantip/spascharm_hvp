@@ -96,20 +96,22 @@ void HVSystem::getCrateMap()
         qDebug() << msg;
     }
     else {
+        char *model = lstModel;
+        char *descr = lstDescription;
         for(auto i {0}; i < nmSlots; i++){
             QString str (QString("Board %1: ").arg(i));
-            if( *lstModel == '\0' ){
+            if( *model == '\0' ){
                 qDebug() << str.append("Not Present");
             }
             else{
-                str += QString("%1 %2 ").arg(lstModel).arg(lstDescription);
+                str += QString("%1 %2 ").arg(model).arg(descr);
                 str += QString("Channels: %1  SN: %2   ").arg(lstNmChanBoard[i]).arg(lstSNBoard[i]);
                 str += QString("Rel. %1.%2").arg(lstFmwRelMin[i]).arg(lstFmwRelMax[i]);
                 qDebug() << str;
             }
 
-            lstModel += strlen(lstModel) + 1;
-            lstDescription += strlen(lstDescription) + 1;
+            model += strlen(model) + 1;
+            descr += strlen(descr) + 1;
         }
 
         qDebug() << "lstNmChanBoard =" << lstNmChanBoard;
@@ -123,6 +125,7 @@ void HVSystem::getCrateMap()
         qDebug() << "lstModel       =" << lstModel;
         if (lstModel != nullptr)
             free( lstModel );
+
         qDebug() << "lstDescription =" << lstDescription;
         if (lstDescription != nullptr)
             free( lstDescription );
@@ -148,52 +151,24 @@ void HVSystem::getChannelName()
     }
 
 
-    //CAENHVRESULT    ret     {-1};
-    //ushort          slot    {0};    // slot number
-    //const ushort    numChan {12};   // number of channels
-
-    //ushort          listChan [numChan];
-    //unsigned short listChan [2048];
-
-    //char  (*listNameCh)[MAX_CH_NAME];
     char  listNameCh[numChan][MAX_CH_NAME];     // из-за этого могут быть проблемы?
-
-
-    // эту функцию вынести в процес инициализации,
-    // так как она повторяется несколько раз, и по суте едина везде
-    /*
-    for (ushort i {0}; i < numChan; i++)
-    {
-        listChan[i] = i;
-    }*/
-
     //listNameCh = (char *) malloc(numChan * MAX_CH_NAME);
 
-    /*
-    for (auto i {0}; i < numChan; i++)
-        listNameCh = (char *) malloc(MAX_CH_NAME);
-    */
 
     ret = CAENHV_GetChName(handle, slot, numChan, listChan, listNameCh);
     if( ret != CAENHV_OK )
     {
         //free(listNameCh);
-        qDebug() << QString("CAENHV_GetChName: %1 (num. %2)\n").arg(CAENHV_GetError(handle)).arg(ret);
+        qDebug() << QString("CAENHV_GetChName: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
         return;
     }
     else
     {
         qDebug() << "Channel name:";
         for(auto i {0}; i < numChan; i++ )
-            qDebug() << QString("Channel n. %1: %1\n").arg(listChan[i]).arg(listNameCh[i]);
+            qDebug() << QString("   Channel n. %1: %2").arg(listChan[i]).arg(listNameCh[i]);
     }
 
-
-    /* per quando era definito come un array di puntatori a char
-    for( n = 0; n < NrOfCh; n++)
-        free(listNameCh[n]);
-    */
-    //free(listNameCh);
 }
 
 void HVSystem::getChannelParameters()
@@ -206,7 +181,9 @@ void HVSystem::getChannelParameters()
     }
 
 
-    char namePar[]      {"V0Set"};       // узнать точное значение !!!
+//    char namePar[]      {"V0Set"};       // узнать правильное значение !!!
+    char namePar[]      {"VMon"};
+//    char namePar[]      {"Pw"};   // состояние источника on/off - не сработало, видимо значение bool-типа
     float *fListParVal  {nullptr};
     ulong *lListParVal  {nullptr};
     ulong type          {0};
@@ -238,7 +215,7 @@ void HVSystem::getChannelParameters()
         qDebug() << QString("CAENHV_GetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
     else
     {
-        qDebug() << "\nParameter value";
+        qDebug() << "\nParameter value:";
         for(auto i {0}; i < numChan; i++ )
             qDebug() << QString("Slot: %1  Ch: %2  %3: %4").arg(slot).arg(listChan[i]).arg(namePar).arg(fListParVal[i]);
     }
@@ -266,11 +243,11 @@ void HVSystem::setChannelParameters()
 
     char namePar[]{"V0Set"};
     ulong type          {0};
-    ulong lValPar       {1000};
-    float fValPar       {1000.};
+    ulong lValPar       {2000};
+    float fValPar       {2000.};
 
     ushort nmChan       {1};    // number of channels
-    ushort chan[1]      {4};    // array of channel numbers
+    ushort chan[1]      {0};    // array of channel numbers
 
     // [1] задаем каналы, с которыми работаем
     //      1/1 enter number of channel(s)

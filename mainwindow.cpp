@@ -23,9 +23,9 @@ void MainWindow::CreateConnection()
 {
     qDebug() << "MainWindow::CreateConnection()";
     connect(ui->pbCrateMap, &QPushButton::clicked, &hvs, &HVSystem::getCrateMap);
-
-
-
+    connect(ui->pbGetChannelName, &QPushButton::clicked, &hvs, &HVSystem::getChannelName);
+    connect(ui->pbGetChannelVoltage, &QPushButton::clicked, &hvs, &HVSystem::getChannelParameters);
+    connect(ui->pbSetVoltage,   &QPushButton::clicked, &hvs, &HVSystem::setChannelParameters);
 
 
 }

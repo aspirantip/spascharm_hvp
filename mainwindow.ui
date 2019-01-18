@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>111</width>
+      <width>151</width>
       <height>41</height>
      </rect>
     </property>
@@ -31,13 +31,39 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>60</y>
-      <width>111</width>
+      <y>160</y>
+      <width>151</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
      <string>Set Voltage</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pbGetChannelName">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>151</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>GetChannelName</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pbGetChannelVoltage">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>151</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>GetChannelVoltage</string>
     </property>
    </widget>
   </widget>
