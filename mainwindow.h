@@ -3,9 +3,16 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QThread>
 #include <QPushButton>
+#include <QCheckBox>
+#include <QDebug>
+
+// std
+#include <array>
 
 #include "hvsystem.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -19,13 +26,21 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void slStartHVScan();
+    void slChangeStateChannel();
+
+
 private:
     Ui::MainWindow *ui;
     HVSystem hvs;
     QTimer timer;
 
+    QVector<QCheckBox*> vCheckBoxChannels;
+    static constexpr uint8_t nmChannels {12};
 
-    void CreateConnection();
+
+    void createConnections();
 };
 
 #endif // MAINWINDOW_H
