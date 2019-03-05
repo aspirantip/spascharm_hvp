@@ -8,6 +8,17 @@
 
 #include "CAENHVWrapper.h"
 
+
+struct Channel{
+    QString name;
+    uint V0Set;
+    uint I0Set;
+    uint VMon;
+    uint IMon;
+    bool Pw;
+
+};
+
 class HVSystem : public QObject
 {
     Q_OBJECT
@@ -25,6 +36,8 @@ public slots:
     void getChannelParameters();
     void setChannelParameters();
 
+    void setStateChannel(uint8_t nm_chan, bool state);
+
 
 
 
@@ -40,7 +53,7 @@ private:
 
 
     ushort  listChan [numChan];
-
+    Channel arrChan  [numChan];
 
     void initSystem();
 

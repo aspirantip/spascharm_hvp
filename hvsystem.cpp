@@ -151,7 +151,7 @@ void HVSystem::getChannelName()
     }
 
 
-    char  listNameCh[numChan][MAX_CH_NAME];     // из-за этого могут быть проблемы?
+    char  listNameCh[numChan][MAX_CH_NAME];
     //listNameCh = (char *) malloc(numChan * MAX_CH_NAME);
 
 
@@ -173,6 +173,9 @@ void HVSystem::getChannelName()
 
 void HVSystem::getChannelParameters()
 {
+    // сделать эту функции для извлечения всех параметров,
+    // всех нужных каналов
+
     qDebug() << "HVSystem::getChannelParameters() ...";
 
     if (!f_connect){
@@ -183,14 +186,14 @@ void HVSystem::getChannelParameters()
 
 //    char namePar[]      {"V0Set"};       // узнать правильное значение !!!
     char namePar[]      {"VMon"};
-//    char namePar[]      {"Pw"};   // состояние источника on/off - не сработало, видимо значение bool-типа
+//    char namePar[]      {"Pw"};   // состояние channel on/off - не сработало, видимо значение bool-типа
     float *fListParVal  {nullptr};
     ulong *lListParVal  {nullptr};
     ulong type          {0};
 
 
     // [1] determine the type of the parameter value
-    // для конкретных функций (установка напряжения) можно пропостить этот этап
+    // для конкретных функций (установка напряжения) можно пропустить этот этап
     // так как тип данных не меняется и соответственно выяснять его постоянно не нужно
     ret = CAENHV_GetChParamProp(handle, slot, listChan[0], namePar, "Type", &type);
     if( ret != CAENHV_OK )
@@ -255,8 +258,7 @@ void HVSystem::setChannelParameters()
 
     // [2]
     ret = CAENHV_GetChParamProp(handle, slot, listChan[0], namePar, "Type", &type);
-    if( ret != CAENHV_OK )
-    {
+    if( ret != CAENHV_OK ){
         qDebug() << QString("CAENHV_GetChParamProp: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
         return;
     }
@@ -272,4 +274,25 @@ void HVSystem::setChannelParameters()
     qDebug() << QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
 
 
+}
+
+void HVSystem::setStateChannel(uint8_t nm_chan, bool state)
+{
+    qDebug() << "HVSystem::setStateChannel() ...";
+    qDebug() << "channel:" << nm_chan;
+    qDebug() << "state:  " << state;
+
+    if (!f_connect){
+        qDebug() << "No connection to power supply!";
+        return;
+    }
+
+
+    char namePar[]  {"Pw"};
+    bool pw_state   {state};
+    ushort nmChan   {1};        // number of channels
+    ushort chan[1]  {nm_chan};  // array of channel numbers
+
+    ret = CAENHV_SetChParam(handle, slot, namePar, nmChan, chan, &pw_state);
+    qDebug() << QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
 }
