@@ -173,8 +173,8 @@ void HVSystem::getChannelName()
 
 void HVSystem::getChannelParameters()
 {
-    // сделать эту функции для извлечения всех параметров,
-    // всех нужных каналов
+    // извлекает значение определенного параметра из всех каналов
+    // можно извлекать значения набора параметров для выбранного канала (см. документацию)
 
     qDebug() << "HVSystem::getChannelParameters() ...";
 
@@ -276,7 +276,28 @@ void HVSystem::setChannelParameters()
 
 }
 
-void HVSystem::setPower(uint8_t nm_chan, bool state)
+void HVSystem::setPowerSystem(bool state)
+{
+    // включаем все необходимые каналы
+    // будет использоваться при hv-scan
+
+}
+
+void HVSystem::setVoltageChannel(uint8_t nm_chan, unsigned int voltage)
+{
+    // устанавливаем напряжение на определенном канале
+
+
+}
+
+void HVSystem::setVoltageSystem(unsigned int voltage)
+{
+    // устанавливаем напряжение на всех необходимых каналах
+    // будет использоваться при hv-scan
+
+}
+
+void HVSystem::setPowerChannel(uint8_t nm_chan, bool state)
 {
     qDebug() << "HVSystem::setStateChannel() ...";
     qDebug() << "channel:" << nm_chan;

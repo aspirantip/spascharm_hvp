@@ -36,8 +36,10 @@ public slots:
     void getChannelParameters();
     void setChannelParameters();
 
-    void setPower(uint8_t nm_chan, bool state);
-    void setVoltage(uint8_t nm_chan, ulong voltage);
+    void setPowerChannel(uint8_t nm_chan, bool state);
+    void setPowerSystem(bool state);
+    void setVoltageChannel(uint8_t nm_chan, ulong voltage);
+    void setVoltageSystem(ulong voltage);
 
 
 

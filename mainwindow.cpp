@@ -75,7 +75,7 @@ void MainWindow::slChangeStateChannel()
         //qDebug() << vCheckBoxChannels[i] << " | " << chan;
         if (vCheckBoxChannels[i] == chan){
             qDebug() << "Clicked" << i << "check box";
-            hvs.setPower(i, chan->isChecked());
+            hvs.setPowerChannel(i, chan->isChecked());
         }
     }
 
