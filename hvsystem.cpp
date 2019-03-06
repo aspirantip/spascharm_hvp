@@ -276,7 +276,7 @@ void HVSystem::setChannelParameters()
 
 }
 
-void HVSystem::setStateChannel(uint8_t nm_chan, bool state)
+void HVSystem::setPower(uint8_t nm_chan, bool state)
 {
     qDebug() << "HVSystem::setStateChannel() ...";
     qDebug() << "channel:" << nm_chan;
@@ -289,9 +289,17 @@ void HVSystem::setStateChannel(uint8_t nm_chan, bool state)
 
 
     char namePar[]  {"Pw"};
-    bool pw_state   {state};
+    ulong pw_state  {state};
     ushort nmChan   {1};        // number of channels
     ushort chan[1]  {nm_chan};  // array of channel numbers
+
+    ulong type      {0};
+    ret = CAENHV_GetChParamProp(handle, slot, listChan[0], namePar, "Type", &type);
+    qDebug() << QString("CAENHV_GetChParamProp: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
+    qDebug() << "type =" << type << " (PARAM_TYPE_ONOFF =" << PARAM_TYPE_ONOFF << ")";
+    if( ret != CAENHV_OK ){
+        return;
+    }
 
     ret = CAENHV_SetChParam(handle, slot, namePar, nmChan, chan, &pw_state);
     qDebug() << QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
