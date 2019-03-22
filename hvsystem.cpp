@@ -25,8 +25,11 @@ void HVSystem::initSystem()
     for (ushort i {0}; i < numChan; i++)
         listChan[i] = i;
 
+
+
     // [2] getting channel names
     // getChannelName ();
+    // set name widgets
 
     // [3] ...
 
@@ -155,6 +158,7 @@ void HVSystem::getChannelName()
     //listNameCh = (char *) malloc(numChan * MAX_CH_NAME);
 
 
+
     ret = CAENHV_GetChName(handle, slot, numChan, listChan, listNameCh);
     if( ret != CAENHV_OK )
     {
@@ -276,32 +280,20 @@ void HVSystem::setChannelParameters()
 
 }
 
-void HVSystem::setPowerSystem(bool state)
+void HVSystem::printActiveChannels()
 {
-    // включаем все необходимые каналы
-    // будет использоваться при hv-scan
-
+    qDebug() << "List of active channels:";
+    qDebug() << "size =" << lstChan.size();
+    for(auto chan: lstChan){
+        qDebug() << "   channel:" << chan;
+    }
 }
+
 
 void HVSystem::setVoltageChannel(uint8_t nm_chan, unsigned int voltage)
 {
     // устанавливаем напряжение на определенном канале
-
-
-}
-
-void HVSystem::setVoltageSystem(unsigned int voltage)
-{
-    // устанавливаем напряжение на всех необходимых каналах
-    // будет использоваться при hv-scan
-
-}
-
-void HVSystem::setPowerChannel(uint8_t nm_chan, bool state)
-{
-    qDebug() << "HVSystem::setStateChannel() ...";
-    qDebug() << "channel:" << nm_chan;
-    qDebug() << "state:  " << state;
+    qDebug() << "HVSystem::setVoltageChannel() ...";
 
     if (!f_connect){
         qDebug() << "No connection to power supply!";
@@ -309,11 +301,66 @@ void HVSystem::setPowerChannel(uint8_t nm_chan, bool state)
     }
 
 
+    char namePar[]  {"V0Set"};
+    ulong volt      {voltage};
+    ushort nmChan   {1};            // number of channels
+    ushort chan[1]  {nm_chan};      // array of channel numbers
+
+
+    ret = CAENHV_SetChParam(handle, slot, namePar, nmChan, chan, &volt);
+    qDebug() << QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
+    if( ret != CAENHV_OK ){     // проблема!!!
+        return;                 // тут уведомляем пользователя
+    }
+}
+
+void HVSystem::setVoltageSystem(unsigned int voltage)
+{
+    // устанавливаем напряжение на всех необходимых каналах (активные checkbox)
+    // будет использоваться при hv-scan
+    // список каналов устанавливается во время старта hv-scan
+
+    qDebug() << "HVSystem::setVoltageChannel() ...";
+
+    if (!f_connect){
+        qDebug() << "No connection to power supply!";
+        return;
+    }
+
+
+    char namePar[]  {"V0Set"};
+    ulong volt      {voltage};
+    ushort nmChan   {static_cast<ushort>(lstChan.size())};          // number of channels
+    ushort *chan    {lstChan.data()};                               // array of channel numbers
+
+
+    ret = CAENHV_SetChParam(handle, slot, namePar, nmChan, chan, &volt);
+    qDebug() << QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
+
+    if( ret != CAENHV_OK ){     // проблема!!!
+        return;                 // тут уведомляем пользователя
+    }
+
+}
+
+void HVSystem::setPowerChannel(uint8_t nm_chan, bool state)
+{
+    qDebug() << "HVSystem::setStateChannel() ...";
+    qDebug() << "   channel:" << nm_chan;
+    qDebug() << "   state:  " << state;
+
+    if (!f_connect){
+        qDebug() << "No connection to power supply!";
+        return;
+    }
+
     char namePar[]  {"Pw"};
     ulong pw_state  {state};
     ushort nmChan   {1};        // number of channels
     ushort chan[1]  {nm_chan};  // array of channel numbers
 
+
+    /*
     ulong type      {0};
     ret = CAENHV_GetChParamProp(handle, slot, listChan[0], namePar, "Type", &type);
     qDebug() << QString("CAENHV_GetChParamProp: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
@@ -321,7 +368,22 @@ void HVSystem::setPowerChannel(uint8_t nm_chan, bool state)
     if( ret != CAENHV_OK ){
         return;
     }
+    */
 
     ret = CAENHV_SetChParam(handle, slot, namePar, nmChan, chan, &pw_state);
     qDebug() << QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
+    if( ret != CAENHV_OK ){     // проблема!!!
+        return;
+    }
+    else {
+        lstChan.push_back(nm_chan);
+    }
+
+}
+
+void HVSystem::setPowerSystem(bool state)
+{
+    // включаем все необходимые каналы
+    // будет использоваться при hv-scan
+
 }

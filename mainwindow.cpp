@@ -60,6 +60,10 @@ void MainWindow::createConnections()
     connect(ui->chbChannel_11, &QCheckBox::clicked, this, &MainWindow::slChangeStateChannel);
     connect(ui->chbChannel_12, &QCheckBox::clicked, this, &MainWindow::slChangeStateChannel);
 
+
+    connect(ui->sbVoltage_1, QOverload<int>::of(&QSpinBox::valueChanged), [](int val){qDebug() << "value =" << val;} );
+
+
 }
 
 void MainWindow::slChangeStateChannel()
@@ -71,10 +75,10 @@ void MainWindow::slChangeStateChannel()
     //qDebug() << "state:" << chan->isChecked();
 
     for (auto i {0}; i < nmChannels; ++i){
-        qDebug() << "#" << i << " | state:" << vCheckBoxChannels[i]->isChecked();
+        //qDebug() << "#" << i << " | state:" << vCheckBoxChannels[i]->isChecked();
         //qDebug() << vCheckBoxChannels[i] << " | " << chan;
         if (vCheckBoxChannels[i] == chan){
-            qDebug() << "Clicked" << i << "check box";
+            //qDebug() << "Clicked" << i << "check box";
             hvs.setPowerChannel(i, chan->isChecked());
         }
     }
@@ -82,35 +86,47 @@ void MainWindow::slChangeStateChannel()
 
 }
 
+void MainWindow::slChangeVoltChannel(int value)
+{
+    QSpinBox* wdg = static_cast<QSpinBox*>( sender() );
+    qDebug() << "value =" << wdg->value();
+
+}
+
 void MainWindow::slStartHVScan()
 {
-    qDebug() << "\nStart HVScan ...";
+    qDebug() << "\n===============================";
+    qDebug() << "Start HVScan ...";
 
-    auto volStart {ui->sbVStart->value()};
-    auto volStop  {ui->sbVStop->value()};
-    auto volStep  {ui->sbVStep->value()};
+    uint32_t volStart = static_cast<uint32_t> (ui->sbVStart->value());
+    uint32_t volStop  = static_cast<uint32_t> (ui->sbVStop->value());
+    uint32_t volStep  = static_cast<uint32_t> (ui->sbVStep->value());
+
+
+    hvs.printActiveChannels();
+
 
     for (auto crVolt {volStart}; crVolt <= volStop; crVolt += volStep)
     {
         // [1] set voltage
         qDebug() << "\n   Set voltage " << crVolt;
         //hvs.setVoltage();
+        hvs.setVoltageSystem( crVolt );
 
 
         // [2] delay or monitoring current
         qDebug() << "   Delay ... ";
-        QThread::sleep( 1 );
+        QThread::sleep( 3 );
 
 
         // [3] data acquisition
         //      [3.1] data processing
         //      [3.2] data visualization
         qDebug() << "   Run DAQ ...";
-
-
     }
 
     qDebug() << "Stop HVScan ...";
+    qDebug() << "===============================";
 }
 
 

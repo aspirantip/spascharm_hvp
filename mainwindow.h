@@ -6,6 +6,7 @@
 #include <QThread>
 #include <QPushButton>
 #include <QCheckBox>
+#include <QSpinBox>
 #include <QDebug>
 
 // std
@@ -29,6 +30,7 @@ public:
 private slots:
     void slStartHVScan();
     void slChangeStateChannel();
+    void slChangeVoltChannel(int value);
 
 
 private:
