@@ -25,11 +25,9 @@ void HVSystem::initSystem()
     for (ushort i {0}; i < numChan; i++)
         listChan[i] = i;
 
-
-
     // [2] getting channel names
-    // getChannelName ();
-    // set name widgets
+    getChannelName();   // set name widgets
+
 
     // [3] ...
 
@@ -58,6 +56,10 @@ void HVSystem::Login()
     if( ret == CAENHV_OK ){
         handle = sysHndl;
         initSystem();
+        emit sgnLogged( true );
+    }
+    else {
+        emit sgnLogged( false );
     }
 }
 
@@ -155,22 +157,19 @@ void HVSystem::getChannelName()
 
 
     char  listNameCh[numChan][MAX_CH_NAME];
-    //listNameCh = (char *) malloc(numChan * MAX_CH_NAME);
-
-
-
     ret = CAENHV_GetChName(handle, slot, numChan, listChan, listNameCh);
     if( ret != CAENHV_OK )
     {
-        //free(listNameCh);
         qDebug() << QString("CAENHV_GetChName: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
         return;
     }
     else
     {
         qDebug() << "Channel name:";
-        for(auto i {0}; i < numChan; i++ )
+        for(auto i {0}; i < numChan; i++ ){
             qDebug() << QString("   Channel n. %1: %2").arg(listChan[i]).arg(listNameCh[i]);
+            arrChan[i].name = listNameCh[i];
+        }
     }
 
 }
@@ -385,5 +384,8 @@ void HVSystem::setPowerSystem(bool state)
 {
     // включаем все необходимые каналы
     // будет использоваться при hv-scan
+    // будем использовать при настроенной опции в приложении
+    // чтобы запустил ПО и активировались сразу все необходимые каналы
+    // при выходи из приложения запоминать рабочие каналы
 
 }

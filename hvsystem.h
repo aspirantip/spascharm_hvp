@@ -10,12 +10,12 @@
 
 
 struct Channel{
-    QString name;
-    uint V0Set;
-    uint I0Set;
-    uint VMon;
-    uint IMon;
-    bool Pw;
+    QString name {"name channel"};
+    uint V0Set   {0};
+    uint I0Set   {0};
+    uint VMon    {0};
+    uint IMon    {0};
+    bool Pw      {false};
 
 };
 
@@ -26,7 +26,10 @@ public:
     explicit HVSystem(QObject *parent = nullptr);
     ~HVSystem();
 
+
+
 signals:
+    void sgnLogged(bool state);
 
 public slots:
     void Login();
@@ -59,9 +62,13 @@ private:
 
     std::vector<ushort> lstChan;
     ushort  listChan [numChan];
-    Channel arrChan  [numChan];
+
 
     void initSystem();
+
+
+public:
+    Channel arrChan  [numChan];
 
 };
 

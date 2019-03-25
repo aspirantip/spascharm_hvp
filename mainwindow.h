@@ -31,7 +31,9 @@ private slots:
     void slStartHVScan();
     void slChangeStateChannel();
     void slChangeVoltChannel(int value);
+    void slSetNamesChannels();
 
+    void slConnectHVP(bool state);
 
 private:
     Ui::MainWindow *ui;

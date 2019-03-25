@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++14
 #CONFIG -= x86_64
-#CONFIG += x86
+CONFIG += x86
 
 SOURCES += \
         main.cpp \

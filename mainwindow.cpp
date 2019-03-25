@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-    vCheckBoxChannels.resize(12);
+    vCheckBoxChannels.resize(nmChannels);
     vCheckBoxChannels[0] = ui->chbChannel_1;
     vCheckBoxChannels[1] = ui->chbChannel_2;
     vCheckBoxChannels[2] = ui->chbChannel_3;
@@ -64,6 +64,8 @@ void MainWindow::createConnections()
     connect(ui->sbVoltage_1, QOverload<int>::of(&QSpinBox::valueChanged), [](int val){qDebug() << "value =" << val;} );
 
 
+    connect(&hvs, &HVSystem::sgnLogged, this, &MainWindow::slConnectHVP);
+
 }
 
 void MainWindow::slChangeStateChannel()
@@ -74,7 +76,7 @@ void MainWindow::slChangeStateChannel()
     //qDebug() << "state:" << chan->objectName();
     //qDebug() << "state:" << chan->isChecked();
 
-    for (auto i {0}; i < nmChannels; ++i){
+    for (uint8_t i {0}; i < nmChannels; ++i){
         //qDebug() << "#" << i << " | state:" << vCheckBoxChannels[i]->isChecked();
         //qDebug() << vCheckBoxChannels[i] << " | " << chan;
         if (vCheckBoxChannels[i] == chan){
@@ -129,4 +131,24 @@ void MainWindow::slStartHVScan()
     qDebug() << "===============================";
 }
 
+void MainWindow::slSetNamesChannels()
+{
+    qDebug() << "MainWindow::slSetNamesChannels() ...";
 
+    for (auto i {0}; i < nmChannels; ++i) {
+        vCheckBoxChannels[i]->setText( hvs.arrChan[i].name );
+    }
+}
+
+void MainWindow::slConnectHVP(bool state)
+{
+    qDebug() << "MainWindow::slConnectHVP() ...";
+
+    if (state){
+        slSetNamesChannels();
+    }
+    else {
+        // show window with info about error
+
+    }
+}
