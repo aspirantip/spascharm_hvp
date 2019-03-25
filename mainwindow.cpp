@@ -43,7 +43,8 @@ void MainWindow::createConnections()
     connect(ui->pbCrateMap,          &QPushButton::clicked, &hvs, &HVSystem::getCrateMap);
     connect(ui->pbGetChannelName,    &QPushButton::clicked, &hvs, &HVSystem::getChannelName);
     connect(ui->pbGetChannelVoltage, &QPushButton::clicked, &hvs, &HVSystem::getChannelParameters);
-    connect(ui->pbSetVoltage,        &QPushButton::clicked, &hvs, &HVSystem::setChannelParameters);
+//    connect(ui->pbSetVoltage,        &QPushButton::clicked, &hvs, &HVSystem::setChannelParameters);
+    connect(ui->pbSetVoltage,        &QPushButton::clicked, this, &MainWindow::slTest);
     connect(ui->pbStartHVScan,       &QPushButton::clicked, this, &MainWindow::slStartHVScan);
 
 
@@ -118,7 +119,7 @@ void MainWindow::slStartHVScan()
 
         // [2] delay or monitoring current
         qDebug() << "   Delay ... ";
-        QThread::sleep( 3 );
+        QThread::sleep( 15 );
 
 
         // [3] data acquisition
@@ -151,4 +152,10 @@ void MainWindow::slConnectHVP(bool state)
         // show window with info about error
 
     }
+}
+
+void MainWindow::slTest()
+{
+
+    hvs.setVoltageSystem( 200.0 );
 }

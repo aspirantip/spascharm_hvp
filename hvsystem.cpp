@@ -252,8 +252,8 @@ void HVSystem::setChannelParameters()
     ulong lValPar       {2000};
     float fValPar       {2000.};
 
-    ushort nmChan       {1};    // number of channels
-    ushort chan[1]      {0};    // array of channel numbers
+    ushort nmChan       {2};    // number of channels
+    ushort chan[2]    = {0, 1};    // array of channel numbers
 
     // [1] задаем каналы, с которыми работаем
     //      1/1 enter number of channel(s)
@@ -267,6 +267,7 @@ void HVSystem::setChannelParameters()
     }
 
     qDebug() << QString("Value %1").arg(namePar);
+    qDebug() << QString("Type of value: %1").arg(type);
     if( type == PARAM_TYPE_NUMERIC ){
         ret = CAENHV_SetChParam(handle, slot, namePar, nmChan, chan, &fValPar);
     }
@@ -313,7 +314,7 @@ void HVSystem::setVoltageChannel(uint8_t nm_chan, unsigned int voltage)
     }
 }
 
-void HVSystem::setVoltageSystem(unsigned int voltage)
+void HVSystem::setVoltageSystem(float voltage)
 {
     // устанавливаем напряжение на всех необходимых каналах (активные checkbox)
     // будет использоваться при hv-scan
@@ -328,10 +329,16 @@ void HVSystem::setVoltageSystem(unsigned int voltage)
 
 
     char namePar[]  {"V0Set"};
-    ulong volt      {voltage};
+    float volt      {voltage};
     ushort nmChan   {static_cast<ushort>(lstChan.size())};          // number of channels
     ushort *chan    {lstChan.data()};                               // array of channel numbers
 
+/*
+    qDebug() << "number of channels:" << nmChan;
+    for(auto i {0}; i < nmChan; ++i){
+        qDebug() << "   channel:" << chan[i];
+    }
+*/
 
     ret = CAENHV_SetChParam(handle, slot, namePar, nmChan, chan, &volt);
     qDebug() << QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
@@ -339,7 +346,6 @@ void HVSystem::setVoltageSystem(unsigned int voltage)
     if( ret != CAENHV_OK ){     // проблема!!!
         return;                 // тут уведомляем пользователя
     }
-
 }
 
 void HVSystem::setPowerChannel(uint8_t nm_chan, bool state)

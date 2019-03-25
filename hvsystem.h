@@ -44,7 +44,8 @@ public slots:
     void setPowerChannel(uint8_t nm_chan, bool state);
     void setPowerSystem(bool state);
     void setVoltageChannel(uint8_t nm_chan, ulong voltage);
-    void setVoltageSystem(ulong voltage);
+    void setVoltageSystem(float voltage);
+
 
 
 

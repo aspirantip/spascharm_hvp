@@ -35,6 +35,8 @@ private slots:
 
     void slConnectHVP(bool state);
 
+    void slTest();
+
 private:
     Ui::MainWindow *ui;
     HVSystem hvs;
