@@ -174,11 +174,8 @@ void HVSystem::getChannelName()
 
 }
 
-void HVSystem::getChannelParameters()
+void HVSystem::getChannelParameters(std::string parName)
 {
-    // извлекает значение определенного параметра из всех каналов
-    // можно извлекать значения набора параметров для выбранного канала (см. документацию)
-
     qDebug() << "HVSystem::getChannelParameters() ...";
 
     if (!f_connect){
@@ -187,43 +184,59 @@ void HVSystem::getChannelParameters()
     }
 
 
-//    char namePar[]      {"V0Set"};       // узнать правильное значение !!!
-    char namePar[]      {"VMon"};
-//    char namePar[]      {"Pw"};   // состояние channel on/off - не сработало, видимо значение bool-типа
+
+// V0Set I0Set VMon IMon Pw
+    //char namePar[]      {"VMon"};
     float *fListParVal  {nullptr};
     ulong *lListParVal  {nullptr};
     ulong type          {0};
 
 
     // [1] determine the type of the parameter value
-    // для конкретных функций (установка напряжения) можно пропустить этот этап
-    // так как тип данных не меняется и соответственно выяснять его постоянно не нужно
-    ret = CAENHV_GetChParamProp(handle, slot, listChan[0], namePar, "Type", &type);
-    if( ret != CAENHV_OK )
-    {
+    ret = CAENHV_GetChParamProp(handle, slot, listChan[0], parName.c_str(), "Type", &type);
+    qDebug() << "type =" << type;
+    if( ret != CAENHV_OK ) {
         qDebug() << QString("CAENHV_GetChParamProp: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
         return;
     }
 
     // [2] get the value of the parameter
-    if( type == PARAM_TYPE_NUMERIC )
-    {
+    if( type == PARAM_TYPE_NUMERIC ) {
         fListParVal = static_cast<float *>(malloc(sizeof(float) * numChan));
-        ret = CAENHV_GetChParam(handle, slot, namePar, numChan, listChan, fListParVal);
+        ret = CAENHV_GetChParam(handle, slot, parName.c_str(), numChan, listChan, fListParVal);
     }
-    else
-    {
+    else {
         lListParVal = static_cast<ulong *>(malloc(sizeof(long) * numChan));
-        ret = CAENHV_GetChParam(handle, slot, namePar, numChan, listChan, lListParVal);
+        ret = CAENHV_GetChParam(handle, slot, parName.c_str(), numChan, listChan, lListParVal);
     }
 
-    if( ret != CAENHV_OK )
+    if( ret != CAENHV_OK ) {
         qDebug() << QString("CAENHV_GetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
-    else
-    {
+    }
+    else {
         qDebug() << "\nParameter value:";
-        for(auto i {0}; i < numChan; i++ )
-            qDebug() << QString("Slot: %1  Ch: %2  %3: %4").arg(slot).arg(listChan[i]).arg(namePar).arg(fListParVal[i]);
+        for(auto i {0}; i < numChan; i++ ){
+
+            if (type == PARAM_TYPE_NUMERIC)
+                qDebug() << QString("Slot: %1  Ch: %2  %3: %4").arg(slot).arg(listChan[i]).arg(parName.c_str()).arg(fListParVal[i]);
+            else {
+                qDebug() << QString("Slot: %1  Ch: %2  %3: %4").arg(slot).arg(listChan[i]).arg(parName.c_str()).arg(lListParVal[i]);
+            }
+
+            if (parName == "VMon"){
+                arrChan[i].VMon = fListParVal[i];
+            }
+            else {
+                if (parName == "IMon"){
+                    arrChan[i].IMon = fListParVal[i];
+                }
+                else {
+                    if (parName == "Pw"){
+                        arrChan[i].Pw = lListParVal[i];
+                    }
+                }
+            }
+        }
     }
 
     // [3] release resources
@@ -280,7 +293,7 @@ void HVSystem::setChannelParameters()
 
 }
 
-void HVSystem::printActiveChannels()
+void HVSystem::printActiveChannels() const
 {
     qDebug() << "List of active channels:";
     qDebug() << "size =" << lstChan.size();

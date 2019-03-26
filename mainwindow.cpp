@@ -28,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
     vCheckBoxChannels[11] = ui->chbChannel_12;
 
 
+    //ui->pbGetChannelVoltage->setEnabled( false );
+
     createConnections();
 }
 
@@ -42,10 +44,13 @@ void MainWindow::createConnections()
 
     connect(ui->pbCrateMap,          &QPushButton::clicked, &hvs, &HVSystem::getCrateMap);
     connect(ui->pbGetChannelName,    &QPushButton::clicked, &hvs, &HVSystem::getChannelName);
-    connect(ui->pbGetChannelVoltage, &QPushButton::clicked, &hvs, &HVSystem::getChannelParameters);
+//    connect(ui->pbGetChannelVoltage, &QPushButton::clicked, &hvs, &HVSystem::getChannelParameters);
 //    connect(ui->pbSetVoltage,        &QPushButton::clicked, &hvs, &HVSystem::setChannelParameters);
     connect(ui->pbSetVoltage,        &QPushButton::clicked, this, &MainWindow::slTest);
     connect(ui->pbStartHVScan,       &QPushButton::clicked, this, &MainWindow::slStartHVScan);
+
+    //connect(&tmrInfoChannel, &QTimer::timeout, this, &MainWindow::slGetInfoChannels);
+    connect(ui->pbGetChannelVoltage, &QPushButton::clicked, this, &MainWindow::slGetInfoChannels);
 
 
     connect(ui->chbChannel_1, &QCheckBox::clicked, this, &MainWindow::slChangeStateChannel);
@@ -91,6 +96,8 @@ void MainWindow::slChangeStateChannel()
 
 void MainWindow::slChangeVoltChannel(int value)
 {
+    Q_UNUSED(value);
+
     QSpinBox* wdg = static_cast<QSpinBox*>( sender() );
     qDebug() << "value =" << wdg->value();
 
@@ -147,6 +154,7 @@ void MainWindow::slConnectHVP(bool state)
 
     if (state){
         slSetNamesChannels();
+        tmrInfoChannel.start(3000);
     }
     else {
         // show window with info about error
@@ -158,4 +166,26 @@ void MainWindow::slTest()
 {
 
     hvs.setVoltageSystem( 200.0 );
+}
+
+void MainWindow::slGetInfoChannels()
+{
+    qDebug() << "MainWindow::slGetInfoChannels() ...";
+
+
+    hvs.getChannelParameters("VMon");
+    //hvs.getChannelParameters("IMon");
+    //hvs.getChannelParameters("Pw");
+
+    //hvs.arrChan[ind]->VMon;
+    qDebug() << "Info channels:";
+    for (auto i {0}; i < nmChannels; ++i) {
+        qDebug() << "VMon =" << hvs.arrChan[i].VMon
+                 << "IMon =" << hvs.arrChan[i].IMon
+                 << "State =" << hvs.arrChan[i].Pw;
+
+
+
+    }
+
 }

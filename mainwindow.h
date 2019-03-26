@@ -32,6 +32,7 @@ private slots:
     void slChangeStateChannel();
     void slChangeVoltChannel(int value);
     void slSetNamesChannels();
+    void slGetInfoChannels();
 
     void slConnectHVP(bool state);
 
@@ -41,6 +42,7 @@ private:
     Ui::MainWindow *ui;
     HVSystem hvs;
     QTimer timer;
+    QTimer tmrInfoChannel;
 
     QVector<QCheckBox*> vCheckBoxChannels;
     static constexpr uint8_t nmChannels {12};

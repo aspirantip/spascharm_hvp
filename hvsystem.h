@@ -11,12 +11,12 @@
 
 
 struct Channel{
-    QString name {"name channel"};
-    uint V0Set   {0};
-    uint I0Set   {0};
-    uint VMon    {0};
-    uint IMon    {0};
-    bool Pw      {false};
+    QString name    {"name channel"};
+    float V0Set     {0};
+    float I0Set     {0};
+    float VMon      {0};
+    float IMon      {0};
+    bool Pw         {false};
 
 };
 
@@ -37,10 +37,10 @@ public slots:
     void Logout();
     void getCrateMap();
     void getChannelName();
-    void getChannelParameters();
+    void getChannelParameters(std::string parName);
     void setChannelParameters();
 
-    void printActiveChannels();
+    void printActiveChannels() const;
 
     void setPowerChannel(uint8_t nm_chan, bool state);
     void setPowerSystem(bool state);
