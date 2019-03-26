@@ -328,19 +328,23 @@ void HVSystem::setVoltageSystem(float voltage)
     }
 
 
+
     char namePar[]  {"V0Set"};
     float volt      {voltage};
     ushort nmChan   {static_cast<ushort>(lstChan.size())};          // number of channels
-    ushort *chan    {lstChan.data()};                               // array of channel numbers
+    //ushort *chan    {lstChan.data()};                               // array of channel numbers
+    std::vector<ushort> chan( lstChan.size() );
+    std::copy(lstChan.cbegin(), lstChan.cend(), chan.begin());
 
-/*
+
+    /*
     qDebug() << "number of channels:" << nmChan;
     for(auto i {0}; i < nmChan; ++i){
         qDebug() << "   channel:" << chan[i];
     }
-*/
+    */
 
-    ret = CAENHV_SetChParam(handle, slot, namePar, nmChan, chan, &volt);
+    ret = CAENHV_SetChParam(handle, slot, namePar, nmChan, chan.data(), &volt);
     qDebug() << QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
 
     if( ret != CAENHV_OK ){     // проблема!!!
@@ -350,9 +354,11 @@ void HVSystem::setVoltageSystem(float voltage)
 
 void HVSystem::setPowerChannel(uint8_t nm_chan, bool state)
 {
-    qDebug() << "HVSystem::setStateChannel() ...";
-    qDebug() << "   channel:" << nm_chan;
-    qDebug() << "   state:  " << state;
+    //qDebug() << "HVSystem::setStateChannel() ...";
+    //qDebug() << "   channel:" << nm_chan;
+    //qDebug() << "   state:  " << state;
+
+
 
     if (!f_connect){
         qDebug() << "No connection to power supply!";
@@ -365,23 +371,19 @@ void HVSystem::setPowerChannel(uint8_t nm_chan, bool state)
     ushort chan[1]  {nm_chan};  // array of channel numbers
 
 
-    /*
-    ulong type      {0};
-    ret = CAENHV_GetChParamProp(handle, slot, listChan[0], namePar, "Type", &type);
-    qDebug() << QString("CAENHV_GetChParamProp: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
-    qDebug() << "type =" << type << " (PARAM_TYPE_ONOFF =" << PARAM_TYPE_ONOFF << ")";
-    if( ret != CAENHV_OK ){
-        return;
-    }
-    */
-
     ret = CAENHV_SetChParam(handle, slot, namePar, nmChan, chan, &pw_state);
     qDebug() << QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
-    if( ret != CAENHV_OK ){     // проблема!!!
-        return;
+    if( ret == CAENHV_OK ){
+        arrChan[nm_chan].Pw = state;
+        if (state){
+            lstChan.push_back(nm_chan);
+        }
+        else {
+            lstChan.remove(nm_chan);
+        }
     }
-    else {
-        lstChan.push_back(nm_chan);
+    else {                  // проблема!!!
+        return;
     }
 
 }

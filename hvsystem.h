@@ -5,6 +5,7 @@
 #include <QDebug>
 
 #include <cstdlib>
+#include <algorithm>
 
 #include "CAENHVWrapper.h"
 
@@ -61,7 +62,8 @@ private:
     static constexpr ushort     numChan {12};   // number of channels
 
 
-    std::vector<ushort> lstChan;
+    std::list<ushort> lstChan;      // list of active channels (index)
+    std::vector<ushort> vChan;
     ushort  listChan [numChan];
 
 
