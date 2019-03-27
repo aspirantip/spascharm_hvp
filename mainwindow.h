@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QCheckBox>
 #include <QSpinBox>
+#include <QLabel>
 #include <QDebug>
 
 // std
@@ -14,6 +15,13 @@
 
 #include "hvsystem.h"
 
+
+
+struct wdgChannel{
+    QCheckBox   *state  {nullptr};
+    QSpinBox    *volt   {nullptr};
+    QLabel      *curr   {nullptr};
+};
 
 namespace Ui {
 class MainWindow;
@@ -46,8 +54,9 @@ private:
 
     QVector<QCheckBox*> vCheckBoxChannels;
     static constexpr uint8_t nmChannels {12};
+    std::array<wdgChannel, nmChannels> lsWChannels;
 
-
+    void initGUI();
     void createConnections();
 };
 

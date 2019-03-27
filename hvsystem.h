@@ -37,15 +37,15 @@ public slots:
     void Logout();
     void getCrateMap();
     void getChannelName();
-    void getChannelParameters(std::string parName);
+    void getChannelParameters(const std::string parName);
     void setChannelParameters();
 
     void printActiveChannels() const;
 
-    void setPowerChannel(uint8_t nm_chan, bool state);
-    void setPowerSystem(bool state);
-    void setVoltageChannel(uint8_t nm_chan, ulong voltage);
-    void setVoltageSystem(float voltage);
+    void setPowerChannel(const uint8_t nm_chan, const bool state);
+    void setPowerSystem(const bool state);
+    void setVoltageChannel(const uint8_t nm_chan, const float voltage);
+    void setVoltageSystem(const float voltage);
 
 
 

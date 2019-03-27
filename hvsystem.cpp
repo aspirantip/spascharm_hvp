@@ -303,7 +303,7 @@ void HVSystem::printActiveChannels() const
 }
 
 
-void HVSystem::setVoltageChannel(uint8_t nm_chan, unsigned int voltage)
+void HVSystem::setVoltageChannel(const uint8_t nm_chan, const float voltage)
 {
     // устанавливаем напряжение на определенном канале
     qDebug() << "HVSystem::setVoltageChannel() ...";
@@ -315,7 +315,7 @@ void HVSystem::setVoltageChannel(uint8_t nm_chan, unsigned int voltage)
 
 
     char namePar[]  {"V0Set"};
-    ulong volt      {voltage};
+    float volt      {voltage};
     ushort nmChan   {1};            // number of channels
     ushort chan[1]  {nm_chan};      // array of channel numbers
 
@@ -327,11 +327,10 @@ void HVSystem::setVoltageChannel(uint8_t nm_chan, unsigned int voltage)
     }
 }
 
-void HVSystem::setVoltageSystem(float voltage)
+void HVSystem::setVoltageSystem(const float voltage)
 {
     // устанавливаем напряжение на всех необходимых каналах (активные checkbox)
     // будет использоваться при hv-scan
-    // список каналов устанавливается во время старта hv-scan
 
     qDebug() << "HVSystem::setVoltageChannel() ...";
 
@@ -339,7 +338,6 @@ void HVSystem::setVoltageSystem(float voltage)
         qDebug() << "No connection to power supply!";
         return;
     }
-
 
 
     char namePar[]  {"V0Set"};
