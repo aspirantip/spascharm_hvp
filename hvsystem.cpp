@@ -214,14 +214,15 @@ void HVSystem::getChannelParameters(std::string parName)
         qDebug() << QString("CAENHV_GetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
     }
     else {
-        qDebug() << "\nParameter value:";
+        //qDebug() << "\nParameter value:";
         for(auto i {0}; i < numChan; i++ ){
-
+            /*
             if (type == PARAM_TYPE_NUMERIC)
                 qDebug() << QString("Slot: %1  Ch: %2  %3: %4").arg(slot).arg(listChan[i]).arg(parName.c_str()).arg(fListParVal[i]);
             else {
                 qDebug() << QString("Slot: %1  Ch: %2  %3: %4").arg(slot).arg(listChan[i]).arg(parName.c_str()).arg(lListParVal[i]);
             }
+            */
 
             if (parName == "VMon"){
                 arrChan[i].VMon = fListParVal[i];

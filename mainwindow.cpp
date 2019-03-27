@@ -85,12 +85,12 @@ void MainWindow::createConnections()
     connect(ui->pbCrateMap,          &QPushButton::clicked, &hvs, &HVSystem::getCrateMap);
     connect(ui->pbGetChannelName,    &QPushButton::clicked, &hvs, &HVSystem::getChannelName);
 //    connect(ui->pbGetChannelVoltage, &QPushButton::clicked, &hvs, &HVSystem::getChannelParameters);
+    //connect(ui->pbGetChannelVoltage, &QPushButton::clicked, this, &MainWindow::slGetInfoChannels);
 //    connect(ui->pbSetVoltage,        &QPushButton::clicked, &hvs, &HVSystem::setChannelParameters);
     connect(ui->pbSetVoltage,        &QPushButton::clicked, this, &MainWindow::slTest);
     connect(ui->pbStartHVScan,       &QPushButton::clicked, this, &MainWindow::slStartHVScan);
 
-    //connect(&tmrInfoChannel, &QTimer::timeout, this, &MainWindow::slGetInfoChannels);
-    connect(ui->pbGetChannelVoltage, &QPushButton::clicked, this, &MainWindow::slGetInfoChannels);
+    connect(&tmrInfoChannel, &QTimer::timeout, this, &MainWindow::slGetInfoChannels);
 
 
     connect(ui->chbChannel_1, &QCheckBox::clicked, this, &MainWindow::slChangeStateChannel);
@@ -200,7 +200,7 @@ void MainWindow::slConnectHVP(bool state)
 
     if (state){
         slSetNamesChannels();
-        tmrInfoChannel.start(3000);
+        tmrInfoChannel.start(1000);
     }
     else {
         // show window with info about error
@@ -220,11 +220,10 @@ void MainWindow::slGetInfoChannels()
 
 
     hvs.getChannelParameters("VMon");
-    //hvs.getChannelParameters("IMon");
-    //hvs.getChannelParameters("Pw");
+    hvs.getChannelParameters("IMon");
+    hvs.getChannelParameters("Pw");
 
-    //hvs.arrChan[ind]->VMon;
-    qDebug() << "Info channels:";
+    qDebug() << "\nInfo channels:";
     for (auto i {0}; i < nmChannels; ++i) {
         qDebug() << "VMon =" << hvs.arrChan[i].VMon
                  << "IMon =" << hvs.arrChan[i].IMon
