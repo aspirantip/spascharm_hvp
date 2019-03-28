@@ -52,7 +52,7 @@ private:
     QTimer timer;
     QTimer tmrInfoChannel;
 
-    QVector<QCheckBox*> vCheckBoxChannels;
+
     static constexpr uint8_t nmChannels {12};
     std::array<wdgChannel, nmChannels> lsWChannels;
 

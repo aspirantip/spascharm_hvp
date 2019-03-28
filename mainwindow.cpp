@@ -22,60 +22,44 @@ MainWindow::~MainWindow()
 
 void MainWindow::initGUI()
 {
-    /*
-        vCheckBoxChannels.resize(nmChannels);
-        vCheckBoxChannels[0] = ui->chbChannel_1;
-        vCheckBoxChannels[1] = ui->chbChannel_2;
-        vCheckBoxChannels[2] = ui->chbChannel_3;
-        vCheckBoxChannels[3] = ui->chbChannel_4;
-        vCheckBoxChannels[4] = ui->chbChannel_5;
-        vCheckBoxChannels[5] = ui->chbChannel_6;
-        vCheckBoxChannels[6] = ui->chbChannel_7;
-        vCheckBoxChannels[7] = ui->chbChannel_8;
-        vCheckBoxChannels[8] = ui->chbChannel_9;
-        vCheckBoxChannels[9] = ui->chbChannel_10;
-        vCheckBoxChannels[10] = ui->chbChannel_11;
-        vCheckBoxChannels[11] = ui->chbChannel_12;
-    */
-        lsWChannels[0].state = ui->chbChannel_1;
-        lsWChannels[0].volt  = ui->sbVoltage_1;     ui->sbVoltage_1->setEnabled( false );
-        lsWChannels[0].curr  = ui->lblCurrent_1;    ui->lblCurrent_1->setEnabled( false );
-        lsWChannels[1].state = ui->chbChannel_2;
-        lsWChannels[1].volt  = ui->sbVoltage_2;     ui->sbVoltage_2->setEnabled( false );
-        lsWChannels[1].curr  = ui->lblCurrent_2;    ui->lblCurrent_2->setEnabled( false );
-        lsWChannels[2].state = ui->chbChannel_3;
-        lsWChannels[2].volt  = ui->sbVoltage_3;     ui->sbVoltage_3->setEnabled( false );
-        lsWChannels[2].curr  = ui->lblCurrent_3;    ui->lblCurrent_3->setEnabled( false );
-        lsWChannels[3].state = ui->chbChannel_4;
-        lsWChannels[3].volt  = ui->sbVoltage_4;     ui->sbVoltage_4->setEnabled( false );
-        lsWChannels[3].curr  = ui->lblCurrent_4;    ui->lblCurrent_4->setEnabled( false );
-        lsWChannels[4].state = ui->chbChannel_5;
-        lsWChannels[4].volt  = ui->sbVoltage_5;     ui->sbVoltage_5->setEnabled( false );
-        lsWChannels[4].curr  = ui->lblCurrent_5;    ui->lblCurrent_5->setEnabled( false );
-        lsWChannels[5].state = ui->chbChannel_6;
-        lsWChannels[5].volt  = ui->sbVoltage_6;     ui->sbVoltage_6->setEnabled( false );
-        lsWChannels[5].curr  = ui->lblCurrent_6;    ui->lblCurrent_6->setEnabled( false );
-        lsWChannels[6].state = ui->chbChannel_7;
-        lsWChannels[6].volt  = ui->sbVoltage_7;     ui->sbVoltage_7->setEnabled( false );
-        lsWChannels[6].curr  = ui->lblCurrent_7;    ui->lblCurrent_7->setEnabled( false );
-        lsWChannels[7].state = ui->chbChannel_8;
-        lsWChannels[7].volt  = ui->sbVoltage_8;     ui->sbVoltage_8->setEnabled( false );
-        lsWChannels[7].curr  = ui->lblCurrent_8;    ui->lblCurrent_8->setEnabled( false );
-        lsWChannels[8].state = ui->chbChannel_9;
-        lsWChannels[8].volt  = ui->sbVoltage_9;     ui->sbVoltage_9->setEnabled( false );
-        lsWChannels[8].curr  = ui->lblCurrent_9;    ui->lblCurrent_9->setEnabled( false );
-        lsWChannels[9].state = ui->chbChannel_10;
-        lsWChannels[9].volt  = ui->sbVoltage_10;    ui->sbVoltage_10->setEnabled( false );
-        lsWChannels[9].curr  = ui->lblCurrent_10;   ui->lblCurrent_10->setEnabled( false );
-        lsWChannels[10].state = ui->chbChannel_11;
-        lsWChannels[10].volt  = ui->sbVoltage_11;   ui->sbVoltage_11->setEnabled( false );
-        lsWChannels[10].curr  = ui->lblCurrent_11;  ui->lblCurrent_11->setEnabled( false );
-        lsWChannels[11].state = ui->chbChannel_12;
-        lsWChannels[11].volt  = ui->sbVoltage_12;   ui->sbVoltage_12->setEnabled( false );
-        lsWChannels[11].curr  = ui->lblCurrent_12;  ui->lblCurrent_12->setEnabled( false );
+    lsWChannels[0].state = ui->chbChannel_1;
+    lsWChannels[0].volt  = ui->sbVoltage_1;     ui->sbVoltage_1->setEnabled( false );
+    lsWChannels[0].curr  = ui->lblCurrent_1;    ui->lblCurrent_1->setEnabled( false );
+    lsWChannels[1].state = ui->chbChannel_2;
+    lsWChannels[1].volt  = ui->sbVoltage_2;     ui->sbVoltage_2->setEnabled( false );
+    lsWChannels[1].curr  = ui->lblCurrent_2;    ui->lblCurrent_2->setEnabled( false );
+    lsWChannels[2].state = ui->chbChannel_3;
+    lsWChannels[2].volt  = ui->sbVoltage_3;     ui->sbVoltage_3->setEnabled( false );
+    lsWChannels[2].curr  = ui->lblCurrent_3;    ui->lblCurrent_3->setEnabled( false );
+    lsWChannels[3].state = ui->chbChannel_4;
+    lsWChannels[3].volt  = ui->sbVoltage_4;     ui->sbVoltage_4->setEnabled( false );
+    lsWChannels[3].curr  = ui->lblCurrent_4;    ui->lblCurrent_4->setEnabled( false );
+    lsWChannels[4].state = ui->chbChannel_5;
+    lsWChannels[4].volt  = ui->sbVoltage_5;     ui->sbVoltage_5->setEnabled( false );
+    lsWChannels[4].curr  = ui->lblCurrent_5;    ui->lblCurrent_5->setEnabled( false );
+    lsWChannels[5].state = ui->chbChannel_6;
+    lsWChannels[5].volt  = ui->sbVoltage_6;     ui->sbVoltage_6->setEnabled( false );
+    lsWChannels[5].curr  = ui->lblCurrent_6;    ui->lblCurrent_6->setEnabled( false );
+    lsWChannels[6].state = ui->chbChannel_7;
+    lsWChannels[6].volt  = ui->sbVoltage_7;     ui->sbVoltage_7->setEnabled( false );
+    lsWChannels[6].curr  = ui->lblCurrent_7;    ui->lblCurrent_7->setEnabled( false );
+    lsWChannels[7].state = ui->chbChannel_8;
+    lsWChannels[7].volt  = ui->sbVoltage_8;     ui->sbVoltage_8->setEnabled( false );
+    lsWChannels[7].curr  = ui->lblCurrent_8;    ui->lblCurrent_8->setEnabled( false );
+    lsWChannels[8].state = ui->chbChannel_9;
+    lsWChannels[8].volt  = ui->sbVoltage_9;     ui->sbVoltage_9->setEnabled( false );
+    lsWChannels[8].curr  = ui->lblCurrent_9;    ui->lblCurrent_9->setEnabled( false );
+    lsWChannels[9].state = ui->chbChannel_10;
+    lsWChannels[9].volt  = ui->sbVoltage_10;    ui->sbVoltage_10->setEnabled( false );
+    lsWChannels[9].curr  = ui->lblCurrent_10;   ui->lblCurrent_10->setEnabled( false );
+    lsWChannels[10].state = ui->chbChannel_11;
+    lsWChannels[10].volt  = ui->sbVoltage_11;   ui->sbVoltage_11->setEnabled( false );
+    lsWChannels[10].curr  = ui->lblCurrent_11;  ui->lblCurrent_11->setEnabled( false );
+    lsWChannels[11].state = ui->chbChannel_12;
+    lsWChannels[11].volt  = ui->sbVoltage_12;   ui->sbVoltage_12->setEnabled( false );
+    lsWChannels[11].curr  = ui->lblCurrent_12;  ui->lblCurrent_12->setEnabled( false );
 
 
-        //ui->pbGetChannelVoltage->setEnabled( false );
 }
 
 void MainWindow::createConnections()
@@ -84,9 +68,6 @@ void MainWindow::createConnections()
 
     connect(ui->pbCrateMap,          &QPushButton::clicked, &hvs, &HVSystem::getCrateMap);
     connect(ui->pbGetChannelName,    &QPushButton::clicked, &hvs, &HVSystem::getChannelName);
-//    connect(ui->pbGetChannelVoltage, &QPushButton::clicked, &hvs, &HVSystem::getChannelParameters);
-    //connect(ui->pbGetChannelVoltage, &QPushButton::clicked, this, &MainWindow::slGetInfoChannels);
-//    connect(ui->pbSetVoltage,        &QPushButton::clicked, &hvs, &HVSystem::setChannelParameters);
     connect(ui->pbSetVoltage,        &QPushButton::clicked, this, &MainWindow::slTest);
     connect(ui->pbStartHVScan,       &QPushButton::clicked, this, &MainWindow::slStartHVScan);
 
@@ -119,15 +100,9 @@ void MainWindow::slChangeStateChannel()
     qDebug() << "MainWindow::slChangeStateChannel ...";
 
     QCheckBox* p_chan = qobject_cast<QCheckBox*>( sender() );
-    //qDebug() << "state:" << chan->objectName();
-    //qDebug() << "state:" << chan->isChecked();
 
     for (uint8_t i {0}; i < nmChannels; ++i){
-        //qDebug() << "#" << i << " | state:" << vCheckBoxChannels[i]->isChecked();
-        //qDebug() << vCheckBoxChannels[i] << " | " << chan;
-        //if (vCheckBoxChannels[i] == chan){
         if ( lsWChannels[i].state == p_chan){
-            //qDebug() << "Clicked" << i << "check box";
             bool f_state = p_chan->isChecked();
             hvs.setPowerChannel(i, f_state);
 
@@ -158,14 +133,10 @@ void MainWindow::slStartHVScan()
     uint32_t volStep  = static_cast<uint32_t> (ui->sbVStep->value());
 
 
-    hvs.printActiveChannels();
-
-
     for (auto crVolt {volStart}; crVolt <= volStop; crVolt += volStep)
     {
         // [1] set voltage
         qDebug() << "\n   Set voltage " << crVolt;
-        //hvs.setVoltage();
         hvs.setVoltageSystem( crVolt );
 
 
@@ -189,7 +160,6 @@ void MainWindow::slSetNamesChannels()
     qDebug() << "MainWindow::slSetNamesChannels() ...";
 
     for (size_t i {0}; i < nmChannels; ++i) {
-        //vCheckBoxChannels[i]->setText( hvs.arrChan[i].name );
         lsWChannels[i].state->setText( hvs.arrChan[i].name );
     }
 }
