@@ -224,36 +224,10 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QSpinBox" name="sbVoltage_1">
-       <property name="suffix">
-        <string notr="true"> V</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="maximum">
-        <number>2600</number>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="2">
       <widget class="QLabel" name="lblCurrent_1">
        <property name="text">
         <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QSpinBox" name="sbVoltage_2">
-       <property name="suffix">
-        <string notr="true"> V</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="maximum">
-        <number>2600</number>
        </property>
       </widget>
      </item>
@@ -264,36 +238,10 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QSpinBox" name="sbVoltage_3">
-       <property name="suffix">
-        <string notr="true"> V</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="maximum">
-        <number>2600</number>
-       </property>
-      </widget>
-     </item>
      <item row="3" column="2">
       <widget class="QLabel" name="lblCurrent_3">
        <property name="text">
         <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QSpinBox" name="sbVoltage_4">
-       <property name="suffix">
-        <string notr="true"> V</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="maximum">
-        <number>2600</number>
        </property>
       </widget>
      </item>
@@ -304,36 +252,10 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
-      <widget class="QSpinBox" name="sbVoltage_5">
-       <property name="suffix">
-        <string notr="true"> V</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="maximum">
-        <number>2600</number>
-       </property>
-      </widget>
-     </item>
      <item row="5" column="2">
       <widget class="QLabel" name="lblCurrent_5">
        <property name="text">
         <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="QSpinBox" name="sbVoltage_6">
-       <property name="suffix">
-        <string notr="true"> V</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="maximum">
-        <number>2600</number>
        </property>
       </widget>
      </item>
@@ -344,36 +266,10 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="1">
-      <widget class="QSpinBox" name="sbVoltage_7">
-       <property name="suffix">
-        <string notr="true"> V</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="maximum">
-        <number>2600</number>
-       </property>
-      </widget>
-     </item>
      <item row="7" column="2">
       <widget class="QLabel" name="lblCurrent_7">
        <property name="text">
         <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="1">
-      <widget class="QSpinBox" name="sbVoltage_8">
-       <property name="suffix">
-        <string notr="true"> V</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="maximum">
-        <number>2600</number>
        </property>
       </widget>
      </item>
@@ -384,36 +280,10 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="1">
-      <widget class="QSpinBox" name="sbVoltage_9">
-       <property name="suffix">
-        <string notr="true"> V</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="maximum">
-        <number>2600</number>
-       </property>
-      </widget>
-     </item>
      <item row="9" column="2">
       <widget class="QLabel" name="lblCurrent_9">
        <property name="text">
         <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="1">
-      <widget class="QSpinBox" name="sbVoltage_10">
-       <property name="suffix">
-        <string notr="true"> V</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="maximum">
-        <number>2600</number>
        </property>
       </widget>
      </item>
@@ -424,36 +294,10 @@
        </property>
       </widget>
      </item>
-     <item row="11" column="1">
-      <widget class="QSpinBox" name="sbVoltage_11">
-       <property name="suffix">
-        <string notr="true"> V</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="maximum">
-        <number>2600</number>
-       </property>
-      </widget>
-     </item>
      <item row="11" column="2">
       <widget class="QLabel" name="lblCurrent_11">
        <property name="text">
         <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="12" column="1">
-      <widget class="QSpinBox" name="sbVoltage_12">
-       <property name="suffix">
-        <string notr="true"> V</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="maximum">
-        <number>2600</number>
        </property>
       </widget>
      </item>
@@ -545,6 +389,162 @@
       <widget class="QCheckBox" name="chbChannel_6">
        <property name="text">
         <string>6 channel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="1">
+      <widget class="QSpinBox" name="sbVoltage_12">
+       <property name="suffix">
+        <string notr="true"> v</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>2600</number>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="1">
+      <widget class="QSpinBox" name="sbVoltage_11">
+       <property name="suffix">
+        <string notr="true"> v</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>2600</number>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="1">
+      <widget class="QSpinBox" name="sbVoltage_10">
+       <property name="suffix">
+        <string notr="true"> v</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>2600</number>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QSpinBox" name="sbVoltage_9">
+       <property name="suffix">
+        <string notr="true"> v</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>2600</number>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QSpinBox" name="sbVoltage_8">
+       <property name="suffix">
+        <string notr="true"> v</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>2600</number>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QSpinBox" name="sbVoltage_7">
+       <property name="suffix">
+        <string notr="true"> v</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>2600</number>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QSpinBox" name="sbVoltage_6">
+       <property name="suffix">
+        <string notr="true"> v</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>2600</number>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QSpinBox" name="sbVoltage_5">
+       <property name="suffix">
+        <string notr="true"> v</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>2600</number>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QSpinBox" name="sbVoltage_4">
+       <property name="suffix">
+        <string notr="true"> v</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>2600</number>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QSpinBox" name="sbVoltage_3">
+       <property name="suffix">
+        <string notr="true"> v</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>2600</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QSpinBox" name="sbVoltage_2">
+       <property name="suffix">
+        <string notr="true"> v</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>2600</number>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QSpinBox" name="sbVoltage_1">
+       <property name="suffix">
+        <string notr="true"> v</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>2600</number>
        </property>
       </widget>
      </item>

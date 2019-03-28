@@ -194,13 +194,14 @@ void MainWindow::slGetInfoChannels()
     hvs.getChannelParameters("Pw");
 
     qDebug() << "\nInfo channels:";
-    for (auto i {0}; i < nmChannels; ++i) {
+    for (size_t i {0}; i < nmChannels; ++i) {
         qDebug() << "VMon =" << hvs.arrChan[i].VMon
                  << "IMon =" << hvs.arrChan[i].IMon
                  << "State =" << hvs.arrChan[i].Pw;
 
-
+        lsWChannels[i].state->setChecked( hvs.arrChan[i].Pw );
+        lsWChannels[i].volt->setValue( hvs.arrChan[i].VMon );
+        lsWChannels[i].curr->setText( QString::number(hvs.arrChan[i].IMon) );
 
     }
-
 }
