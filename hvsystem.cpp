@@ -51,7 +51,6 @@ void HVSystem::Login()
 
 
     ret = CAENHV_InitSystem(sysType, linkType, ip_addr, username, password, &sysHndl);
-
     qDebug() << QString("CAENHV_InitSystem: %1 (num. %2)").arg( CAENHV_GetError(sysHndl) ).arg( ret );
     if( ret == CAENHV_OK ){
         handle = sysHndl;
@@ -119,31 +118,24 @@ void HVSystem::getCrateMap()
             descr += strlen(descr) + 1;
         }
 
-        qDebug() << "lstNmChanBoard =" << lstNmChanBoard;
         if (lstNmChanBoard != nullptr)
             free( lstNmChanBoard );
 
-        qDebug() << "lstSNBoard     =" << lstSNBoard;
         if (lstSNBoard != nullptr)
             free( lstSNBoard );
 
-        qDebug() << "lstModel       =" << lstModel;
         if (lstModel != nullptr)
             free( lstModel );
 
-        qDebug() << "lstDescription =" << lstDescription;
         if (lstDescription != nullptr)
             free( lstDescription );
 
-        qDebug() << "lstFmwRelMin   =" << lstFmwRelMin;
         if (lstFmwRelMin != nullptr)
             free( lstFmwRelMin );
 
-        qDebug() << "lstFmwRelMax   =" << lstFmwRelMax;
         if (lstFmwRelMax != nullptr)
             free( lstFmwRelMax );
     }
-
 }
 
 void HVSystem::getChannelName()
@@ -158,12 +150,7 @@ void HVSystem::getChannelName()
 
     char  listNameCh[numChan][MAX_CH_NAME];
     ret = CAENHV_GetChName(handle, slot, numChan, listChan, listNameCh);
-    if( ret != CAENHV_OK )
-    {
-        qDebug() << QString("CAENHV_GetChName: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
-        return;
-    }
-    else
+    if( ret == CAENHV_OK )
     {
         qDebug() << "Channel name:";
         for(auto i {0}; i < numChan; i++ ){
@@ -171,10 +158,14 @@ void HVSystem::getChannelName()
             arrChan[i].name = listNameCh[i];
         }
     }
-
+    else
+    {
+        qDebug() << QString("CAENHV_GetChName: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
+        return;
+    }
 }
 
-void HVSystem::getChannelParameters(std::string parName)
+void HVSystem::getChannelParameters(const std::string parName)
 {
     qDebug() << "HVSystem::getChannelParameters() ...";
 
@@ -184,9 +175,6 @@ void HVSystem::getChannelParameters(std::string parName)
     }
 
 
-
-// V0Set I0Set VMon IMon Pw
-    //char namePar[]      {"VMon"};
     float *fListParVal  {nullptr};
     ulong *lListParVal  {nullptr};
     ulong type          {0};
@@ -214,16 +202,7 @@ void HVSystem::getChannelParameters(std::string parName)
         qDebug() << QString("CAENHV_GetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
     }
     else {
-        //qDebug() << "\nParameter value:";
         for(auto i {0}; i < numChan; i++ ){
-            /*
-            if (type == PARAM_TYPE_NUMERIC)
-                qDebug() << QString("Slot: %1  Ch: %2  %3: %4").arg(slot).arg(listChan[i]).arg(parName.c_str()).arg(fListParVal[i]);
-            else {
-                qDebug() << QString("Slot: %1  Ch: %2  %3: %4").arg(slot).arg(listChan[i]).arg(parName.c_str()).arg(lListParVal[i]);
-            }
-            */
-
             if (parName == "VMon"){
                 arrChan[i].VMon = fListParVal[i];
             }
@@ -245,14 +224,10 @@ void HVSystem::getChannelParameters(std::string parName)
         free (fListParVal);
     if (lListParVal != nullptr)
         free (lListParVal);
-
 }
 
 void HVSystem::setChannelParameters()
 {
-    // задавать напряжение надо не вовсех каналах!
-    // устанавливать значение можно в одном канале, а можно сразу во всех
-
     qDebug() << "HVSystem::setChannelParameters() ...";
 
     if (!f_connect){
@@ -261,20 +236,20 @@ void HVSystem::setChannelParameters()
     }
 
 
-    char namePar[]{"V0Set"};
+    char namePar[]      {"V0Set"};
     ulong type          {0};
     ulong lValPar       {2000};
     float fValPar       {2000.};
 
-    ushort nmChan       {2};    // number of channels
-    ushort chan[2]    = {0, 1};    // array of channel numbers
+    ushort nmChan       {2};        // number of channels
+    ushort chan[2]    = {0, 1};     // array of channel numbers
 
     // [1] задаем каналы, с которыми работаем
     //      1/1 enter number of channel(s)
     //      1/2 enter channel (loop)
 
     // [2]
-    ret = CAENHV_GetChParamProp(handle, slot, listChan[0], namePar, "Type", &type);
+    ret = CAENHV_GetChParamProp(handle, slot, chan[0], namePar, "Type", &type);
     if( ret != CAENHV_OK ){
         qDebug() << QString("CAENHV_GetChParamProp: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
         return;
@@ -290,15 +265,13 @@ void HVSystem::setChannelParameters()
     }
 
     qDebug() << QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
-
-
 }
 
 void HVSystem::printActiveChannels() const
 {
     qDebug() << "List of active channels:";
-    qDebug() << "size =" << lstChan.size();
-    for(auto chan: lstChan){
+    qDebug() << "size =" << lstActiveChan.size();
+    for(auto chan: lstActiveChan){
         qDebug() << "   channel:" << chan;
     }
 }
@@ -306,7 +279,6 @@ void HVSystem::printActiveChannels() const
 
 void HVSystem::setVoltageChannel(const uint8_t nm_chan, const float voltage)
 {
-    // устанавливаем напряжение на определенном канале
     qDebug() << "HVSystem::setVoltageChannel() ...";
 
     if (!f_connect){
@@ -330,9 +302,6 @@ void HVSystem::setVoltageChannel(const uint8_t nm_chan, const float voltage)
 
 void HVSystem::setVoltageSystem(const float voltage)
 {
-    // устанавливаем напряжение на всех необходимых каналах (активные checkbox)
-    // будет использоваться при hv-scan
-
     qDebug() << "HVSystem::setVoltageChannel() ...";
 
     if (!f_connect){
@@ -343,18 +312,9 @@ void HVSystem::setVoltageSystem(const float voltage)
 
     char namePar[]  {"V0Set"};
     float volt      {voltage};
-    ushort nmChan   {static_cast<ushort>(lstChan.size())};          // number of channels
-    //ushort *chan    {lstChan.data()};                               // array of channel numbers
-    std::vector<ushort> chan( lstChan.size() );
-    std::copy(lstChan.cbegin(), lstChan.cend(), chan.begin());
-
-
-    /*
-    qDebug() << "number of channels:" << nmChan;
-    for(auto i {0}; i < nmChan; ++i){
-        qDebug() << "   channel:" << chan[i];
-    }
-    */
+    ushort nmChan   {static_cast<ushort>(lstActiveChan.size())};          // number of channels
+    std::vector<ushort> chan( lstActiveChan.size() );
+    std::copy(lstActiveChan.cbegin(), lstActiveChan.cend(), chan.begin());
 
     ret = CAENHV_SetChParam(handle, slot, namePar, nmChan, chan.data(), &volt);
     qDebug() << QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
@@ -366,11 +326,7 @@ void HVSystem::setVoltageSystem(const float voltage)
 
 void HVSystem::setPowerChannel(uint8_t nm_chan, bool state)
 {
-    //qDebug() << "HVSystem::setStateChannel() ...";
-    //qDebug() << "   channel:" << nm_chan;
-    //qDebug() << "   state:  " << state;
-
-
+    qDebug() << "HVSystem::setStateChannel() ...";
 
     if (!f_connect){
         qDebug() << "No connection to power supply!";
@@ -388,16 +344,15 @@ void HVSystem::setPowerChannel(uint8_t nm_chan, bool state)
     if( ret == CAENHV_OK ){
         arrChan[nm_chan].Pw = state;
         if (state){
-            lstChan.push_back(nm_chan);
+            lstActiveChan.push_back(nm_chan);
         }
         else {
-            lstChan.remove(nm_chan);
+            lstActiveChan.remove(nm_chan);
         }
     }
     else {                  // проблема!!!
         return;
     }
-
 }
 
 void HVSystem::setPowerSystem(bool state)
@@ -407,5 +362,7 @@ void HVSystem::setPowerSystem(bool state)
     // будем использовать при настроенной опции в приложении
     // чтобы запустил ПО и активировались сразу все необходимые каналы
     // при выходи из приложения запоминать рабочие каналы
+
+    Q_UNUSED(state);
 
 }

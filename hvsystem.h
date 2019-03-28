@@ -62,9 +62,8 @@ private:
     static constexpr ushort     numChan {12};   // number of channels
 
 
-    std::list<ushort> lstChan;      // list of active channels (index)
-    std::vector<ushort> vChan;
-    ushort  listChan [numChan];
+    ushort  listChan [numChan];                 // list of all channels
+    std::list<ushort> lstActiveChan;            // list of active channels (index)
 
 
     void initSystem();
