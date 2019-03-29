@@ -51,6 +51,7 @@ void HVSystem::Login()
 
 
     ret = CAENHV_InitSystem(sysType, linkType, ip_addr, username, password, &sysHndl);
+    emit sendMessage( QString("CAENHV_InitSystem: %1 (num. %2)").arg( CAENHV_GetError(sysHndl) ).arg( ret ) );
     qDebug() << QString("CAENHV_InitSystem: %1 (num. %2)").arg( CAENHV_GetError(sysHndl) ).arg( ret );
     if( ret == CAENHV_OK ){
         handle = sysHndl;
@@ -81,6 +82,7 @@ void HVSystem::getCrateMap()
 
     if (!f_connect){
         qDebug() << "No connection to power supply!";
+        emit sendMessage("No connection to power supply!");
         return;
     }
 
@@ -144,6 +146,7 @@ void HVSystem::getChannelName()
 
     if (!f_connect){
         qDebug() << "No connection to power supply!";
+        emit sendMessage("No connection to power supply!");
         return;
     }
 
@@ -171,6 +174,7 @@ void HVSystem::getChannelParameters(const std::string parName)
 
     if (!f_connect){
         qDebug() << "No connection to power supply!";
+        emit sendMessage("No connection to power supply!");
         return;
     }
 
@@ -232,6 +236,7 @@ void HVSystem::setChannelParameters()
 
     if (!f_connect){
         qDebug() << "No connection to power supply!";
+        emit sendMessage("No connection to power supply!");
         return;
     }
 
@@ -283,6 +288,7 @@ void HVSystem::setVoltageChannel(const uint8_t nm_chan, const float voltage)
 
     if (!f_connect){
         qDebug() << "No connection to power supply!";
+        emit sendMessage("No connection to power supply!");
         return;
     }
 
@@ -296,7 +302,7 @@ void HVSystem::setVoltageChannel(const uint8_t nm_chan, const float voltage)
     ret = CAENHV_SetChParam(handle, slot, namePar, nmChan, chan, &volt);
     qDebug() << QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
     if( ret != CAENHV_OK ){     // проблема!!!
-        return;                 // тут уведомляем пользователя
+        emit sendMessage(QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret));
     }
 }
 
@@ -306,6 +312,7 @@ void HVSystem::setVoltageSystem(const float voltage)
 
     if (!f_connect){
         qDebug() << "No connection to power supply!";
+        emit sendMessage("No connection to power supply!");
         return;
     }
 
@@ -320,7 +327,7 @@ void HVSystem::setVoltageSystem(const float voltage)
     qDebug() << QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
 
     if( ret != CAENHV_OK ){     // проблема!!!
-        return;                 // тут уведомляем пользователя
+        emit sendMessage(QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret));
     }
 }
 
@@ -330,6 +337,7 @@ void HVSystem::setPowerChannel(uint8_t nm_chan, bool state)
 
     if (!f_connect){
         qDebug() << "No connection to power supply!";
+        emit sendMessage("No connection to power supply!");
         return;
     }
 
@@ -350,8 +358,8 @@ void HVSystem::setPowerChannel(uint8_t nm_chan, bool state)
             lstActiveChan.remove(nm_chan);
         }
     }
-    else {                  // проблема!!!
-        return;
+    else {
+        emit sendMessage(QString("CAENHV_SetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret));
     }
 }
 

@@ -92,6 +92,8 @@ void MainWindow::createConnections()
 
 
     connect(&hvs, &HVSystem::sgnLogged, this, &MainWindow::slConnectHVP);
+    //connect(&hvs, &HVSystem::sendMessage, ui->statusBar, &QStatusBar::showMessage);
+    connect(&hvs, &HVSystem::sendMessage, [this](QString str){ui->statusBar->showMessage(str, 5000);});
 
 }
 

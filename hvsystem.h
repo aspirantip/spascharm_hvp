@@ -31,6 +31,7 @@ public:
 
 signals:
     void sgnLogged(bool state);
+    void sendMessage(QString string);
 
 public slots:
     void Login();
