@@ -88,8 +88,8 @@ void MainWindow::createConnections()
     connect(ui->chbChannel_12, &QCheckBox::clicked, this, &MainWindow::slChangeStateChannel);
 
 
-    connect(ui->sbVoltage_1, QOverload<int>::of(&QSpinBox::valueChanged), [](int val){qDebug() << "value =" << val;} );
-
+    //connect(ui->sbVoltage_1, QOverload<int>::of(&QSpinBox::valueChanged), [](int val){qDebug() << "value =" << val;} );
+    connect(ui->sbVoltage_1, &QSpinBox::editingFinished, [this](){qDebug() << "value volt_1 =" << ui->sbVoltage_1->value();});
 
     connect(&hvs, &HVSystem::sgnLogged, this, &MainWindow::slConnectHVP);
     //connect(&hvs, &HVSystem::sendMessage, ui->statusBar, &QStatusBar::showMessage);
@@ -142,9 +142,21 @@ void MainWindow::slStartHVScan()
         hvs.setVoltageSystem( crVolt );
 
 
+        QDir dir;
+        bool f_state = dir.mkdir( QString::number(crVolt) );
+        qDebug() << "dir =" << dir.path();
+        qDebug() << "dir =" << dir.absolutePath();
+
+
+        QProcess procSetNameFile;
+        procSetNameFile.start( "sh", QStringList() << "-c" << QString("echo 'volt = %1 ' > ./%1/file_name_.text").arg(crVolt) );
+        procSetNameFile.waitForFinished();
+        procSetNameFile.close();
+
+
         // [2] delay or monitoring current
         qDebug() << "   Delay ... ";
-        QThread::sleep( 15 );
+        QThread::sleep( 3 );
 
 
         // [3] data acquisition

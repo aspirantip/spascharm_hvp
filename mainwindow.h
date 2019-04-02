@@ -9,6 +9,9 @@
 #include <QSpinBox>
 #include <QLabel>
 #include <QDebug>
+#include <QProcess>
+#include <QDir>
+
 
 // std
 #include <array>
