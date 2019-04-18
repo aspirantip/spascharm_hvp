@@ -19,6 +19,16 @@
 #include "hvsystem.h"
 
 
+#include <libssh/libssh.h>
+
+
+#include <iostream>
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+
 
 struct wdgChannel{
     QCheckBox   *state  {nullptr};

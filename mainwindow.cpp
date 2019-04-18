@@ -1,6 +1,72 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
+bool verify_host(ssh_session session)
+{
+
+    unsigned char *hash = nullptr;
+    char *hexa;
+    char buf[10];
+
+    int state = ssh_is_server_known(session);
+    int hlen  = ssh_get_pubkey_hash(session, &hash);
+    if (hlen < 0)
+        return false;
+
+    switch (state)
+    {
+    case SSH_SERVER_KNOWN_OK:
+        std::cout << "Server known (OK): " << ssh_get_hexa(hash, hlen) << std::endl;
+        break; /* ok */
+    case SSH_SERVER_KNOWN_CHANGED:
+        fprintf(stderr, "Host key for server changed: it is now:\n");
+        ssh_print_hexa("Public key hash", hash, hlen);
+        fprintf(stderr, "For security reasons, connection will be stopped\n");
+        free(hash);
+        return false;
+    case SSH_SERVER_FOUND_OTHER:
+        fprintf(stderr, "The host key for this server was not found but an other"
+                        "type of key exists.\n");
+        fprintf(stderr, "An attacker might change the default server key to"
+                        "confuse your client into thinking the key does not exist\n");
+        free(hash);
+        return false;
+    case SSH_SERVER_FILE_NOT_FOUND:
+        fprintf(stderr, "Could not find known host file.\n");
+        fprintf(stderr, "If you accept the host key here, the file will be"
+                        "automatically created.\n");
+        /* fallback to SSH_SERVER_NOT_KNOWN behavior */
+    case SSH_SERVER_NOT_KNOWN:
+        hexa = ssh_get_hexa(hash, hlen);
+        fprintf(stderr,"The server is unknown. Do you trust the host key [yes/no]?\n");
+        fprintf(stderr, "Public key hash: %s\n", hexa);
+        free(hexa);
+        if (fgets(buf, sizeof(buf), stdin) == nullptr){
+            free(hash);
+            return false;
+        }
+        if (strncasecmp(buf, "yes", 3) != 0)        {
+            free(hash);
+            return false;
+        }
+        if (ssh_write_knownhost(session) < 0)        {
+            fprintf(stderr, "Error %s\n", strerror(errno));
+            free(hash);
+            return false;
+        }
+        break;
+    case SSH_SERVER_ERROR:
+        fprintf(stderr, "Error %s", ssh_get_error(session));
+        free(hash);
+        return false;
+    }
+
+    free(hash);
+    return true;
+}
+
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -194,8 +260,80 @@ void MainWindow::slConnectHVP(bool state)
 
 void MainWindow::slTest()
 {
+    //hvs.setVoltageSystem( 200.0 );
 
-    hvs.setVoltageSystem( 200.0 );
+    std::cout << "start application ...\n";
+
+    ssh_session s_ssh;
+    s_ssh = ssh_new();
+    if (s_ssh != nullptr){
+        std::cout << "ssh session was created!\n";
+
+        std::string host_name = "10.162.1.110";
+        std::string user_name = "mutomo";
+        std::string password  = "mutomo_team";
+        int port = 22;
+        int verb = SSH_LOG_FUNCTIONS;
+
+        ssh_options_set(s_ssh, SSH_OPTIONS_HOST, host_name.c_str());
+        ssh_options_set(s_ssh, SSH_OPTIONS_PORT, &port);
+        ssh_options_set(s_ssh, SSH_OPTIONS_USER, user_name.c_str());
+        //ssh_options_set(s_ssh, SSH_OPTIONS_LOG_VERBOSITY, &verb);
+
+        std::cout << "Connecting to host " << host_name << " and port " << port << std::endl;
+        int connection = ssh_connect( s_ssh );
+        if (connection == SSH_OK){
+            std::cout << "Connected\n";
+
+            if (verify_host (s_ssh)){
+                int rc = ssh_userauth_password(s_ssh, nullptr, password.c_str());
+                if (rc == SSH_AUTH_SUCCESS) {
+                    std::cout << "Authenticating with password: OK" << std::endl;
+
+
+                    std::cout << "Channel...\n";
+                    ssh_channel channel = ssh_channel_new(s_ssh);
+                    if (channel != nullptr) {
+                        std::cout << "Opening...\n";
+                        rc = ssh_channel_open_session(channel);
+                        if (rc == SSH_OK){
+                            std::cout << "Executing remote command...\n";
+                            rc = ssh_channel_request_exec(channel, "ls -l");
+                            if (rc == SSH_OK){
+                                std::cout << "Received:\n";
+                                char buffer[1024];
+                                auto nbytes {0};
+                                do {
+                                    nbytes = ssh_channel_read(channel, buffer, sizeof(buffer), 0);
+                                    fwrite(buffer, 1, nbytes, stdout);
+                                } while (nbytes > 0);
+                                std::cout.flush();
+
+                                ssh_channel_send_eof(channel);
+                            }
+                            ssh_channel_close( channel );
+                        }
+                        ssh_channel_free( channel );
+                    }
+                }
+                else {
+                    fprintf(stderr, "Error authenticating with password: %s\n", ssh_get_error(s_ssh));
+                }
+            }
+
+
+            ssh_disconnect(s_ssh);
+        }
+        else {
+            std::cerr << "Error connection to " << host_name << ": " << ssh_get_error(s_ssh);
+        }
+
+
+        ssh_free(s_ssh);
+    }
+
+
+    std::cout << "stop application ...\n";
 }
 
 void MainWindow::slGetInfoChannels()

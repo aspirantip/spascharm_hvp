@@ -42,7 +42,7 @@ FORMS += \
 #INCLUDEPATH += $$PWD
 #LIBS += -L$$PWD/libs/libcaenhvwrapper.so.5.82
 #LIBS += -L$$PWD/libs -lcaenhvwrapper
-LIBS += -lcaenhvwrapper
+LIBS += -lcaenhvwrapper -lssh
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
