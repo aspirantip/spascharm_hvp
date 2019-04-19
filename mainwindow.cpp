@@ -269,9 +269,9 @@ void MainWindow::slTest()
     if (s_ssh != nullptr){
         std::cout << "ssh session was created!\n";
 
-        std::string host_name = "10.162.1.110";
-        std::string user_name = "mutomo";
-        std::string password  = "mutomo_team";
+        std::string host_name = "172.22.1.1";
+        std::string user_name = "root";
+        //std::string password  = "mutomo_team";
         int port = 22;
         int verb = SSH_LOG_FUNCTIONS;
 
@@ -286,7 +286,8 @@ void MainWindow::slTest()
             std::cout << "Connected\n";
 
             if (verify_host (s_ssh)){
-                int rc = ssh_userauth_password(s_ssh, nullptr, password.c_str());
+                //int rc = ssh_userauth_password(s_ssh, nullptr, password.c_str());
+                int rc = ssh_userauth_none(s_ssh, nullptr);
                 if (rc == SSH_AUTH_SUCCESS) {
                     std::cout << "Authenticating with password: OK" << std::endl;
 
@@ -297,15 +298,32 @@ void MainWindow::slTest()
                         std::cout << "Opening...\n";
                         rc = ssh_channel_open_session(channel);
                         if (rc == SSH_OK){
-                            std::cout << "Executing remote command...\n";
-                            rc = ssh_channel_request_exec(channel, "ls -l");
+                            //std::string command = "ls -l";
+                            std::string command = "./daq_cosm.sh";
+                            std::cout << "Executing remote command: \"" << command <<"\"" << "...\n";
+                            rc = ssh_channel_request_exec(channel, command.c_str());
                             if (rc == SSH_OK){
                                 std::cout << "Received:\n";
                                 char buffer[1024];
                                 auto nbytes {0};
+                                /*
                                 do {
                                     nbytes = ssh_channel_read(channel, buffer, sizeof(buffer), 0);
                                     fwrite(buffer, 1, nbytes, stdout);
+                                } while (nbytes > 0);
+                                std::cout.flush();
+                                */
+
+                                auto start_time = std::chrono::high_resolution_clock::now();
+                                do {
+                                    nbytes = ssh_channel_read(channel, buffer, sizeof(buffer), 0);
+                                    fwrite(buffer, 1, nbytes, stdout);
+                                    std::cout.flush();
+
+                                    auto stop_time = std::chrono::high_resolution_clock::now();
+                                    std::chrono::duration<double> elapsed = stop_time - start_time;
+                                    //std::cout << "Elapsed time: " << elapsed.count() << " s\n";
+                                    if (elapsed.count() > 30)   break;
                                 } while (nbytes > 0);
                                 std::cout.flush();
 
