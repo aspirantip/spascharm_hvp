@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QProcess>
 #include <QDir>
+#include <QDateTime>
 
 
 // std
@@ -72,6 +73,8 @@ private:
 
     void initGUI();
     void createConnections();
+    void makeDirectory(QString name_dir);
+    void startDAQ();
 };
 
 #endif // MAINWINDOW_H
