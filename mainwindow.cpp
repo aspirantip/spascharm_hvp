@@ -166,18 +166,19 @@ void MainWindow::createConnections()
 void MainWindow::makeDirectory(QString name_dir)
 {
     //RUN=run263_2000_st3_parallel_flow3
-
     qDebug() << "RUN =" << name_dir;
 
-//    QString parent_path ("/storage/runs");
-    QString parent_path ("/home/plotnikov/");
+    QString var_path ("/storage/runs");
+    QString parent_path (var_path + "/cosmic18-05/");
+//    QString parent_path ("/home/plotnikov/");
     parent_path += name_dir;
 
     QDir dir;
     bool f_state = QDir().mkpath( parent_path );
     if (f_state){
         QProcess procSetNameFile;
-        procSetNameFile.start( "sh", QStringList() << "-c" << QString("echo 'RUN=%1' > %2/file_name.text").arg(name_dir).arg(parent_path));
+        procSetNameFile.start( "sh", QStringList() << "-c" << QString("echo 'RUN=%1' > %2/vars.sh").arg(name_dir).arg(var_path));
+        //procSetNameFile.start( "sh", QStringList() << "-c" << QString("echo 'RUN=%1' > %2/file_name.text").arg(name_dir).arg(parent_path));
         procSetNameFile.waitForFinished();
         procSetNameFile.close();
     }
@@ -307,12 +308,12 @@ void MainWindow::slStartHVScan()
     {
         // [1] set voltage
         qDebug() << "\n   Set voltage " << crVolt;
-        hvs.setVoltageSystem( crVolt );
+        //hvs.setVoltageSystem( crVolt );
         makeDirectory( name_path + QString::number(crVolt) );
 
         // [2] delay or monitoring current
         qDebug() << "   Delay ... ";
-        QThread::sleep( 10 );
+        QThread::sleep( 3 );
 
         // [3] data acquisition
         //      [3.1] data processing
