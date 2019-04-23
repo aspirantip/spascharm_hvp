@@ -18,6 +18,7 @@
 #include <array>
 #include <chrono>
 #include <iostream>
+#include <thread>
 
 
 #include "hvsystem.h"
@@ -58,6 +59,7 @@ private slots:
     void slGetInfoChannels();
 
     void slConnectHVP(bool state);
+    void startDAQ();
 
     void slTest();
 
@@ -74,7 +76,9 @@ private:
     void initGUI();
     void createConnections();
     void makeDirectory(QString name_dir);
-    void startDAQ();
+    void hvscan();
+    //void startDAQ();
+    static void tmr_info();
 };
 
 #endif // MAINWINDOW_H

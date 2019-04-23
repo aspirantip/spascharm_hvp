@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 
+
 bool verify_host(ssh_session session)
 {
 
@@ -187,6 +188,44 @@ void MainWindow::makeDirectory(QString name_dir)
     }
 }
 
+void MainWindow::hvscan()
+{
+    qDebug() << "\n===============================";
+    qDebug() << "Start HVScan ...";
+
+    uint32_t volStart = static_cast<uint32_t> (ui->sbVStart->value());
+    uint32_t volStop  = static_cast<uint32_t> (ui->sbVStop->value());
+    uint32_t volStep  = static_cast<uint32_t> (ui->sbVStep->value());
+
+
+    QString name_path("hv-scan");
+    name_path += QDateTime::currentDateTime().toString("/dd.MM.yyyy_hh:mm:ss/");
+    qDebug() << "path:" << name_path;
+
+
+    for (auto crVolt {volStart}; crVolt <= volStop; crVolt += volStep)
+    {
+        // [1] set voltage
+        qDebug() << "\n   Set voltage " << crVolt;
+        hvs.setVoltageSystem( crVolt );
+        makeDirectory( name_path + QString::number(crVolt) );
+
+        // [2] delay or monitoring current
+        qDebug() << "   Delay ... ";
+        std::this_thread::sleep_for(std::chrono::seconds(3));
+        //QThread::sleep( 1 );
+
+        // [3] data acquisition
+        //      [3.1] data processing
+        //      [3.2] data visualization
+        qDebug() << "   Run DAQ ...";
+        startDAQ();
+    }
+
+    qDebug() << "Stop HVScan ...";
+    qDebug() << "===============================";
+}
+
 void MainWindow::startDAQ()
 {
     qDebug() << "MainWindow::startDAQ ...";
@@ -237,7 +276,7 @@ void MainWindow::startDAQ()
                                     auto stop_time = std::chrono::high_resolution_clock::now();
                                     std::chrono::duration<double> elapsed = stop_time - start_time;
                                     //std::cout << "Elapsed time: " << elapsed.count() << " s\n";
-                                    if (elapsed.count() > 60)   break;
+                                    if (elapsed.count() > 10)   break;
                                 } while (nbytes > 0);
                                 std::cout.flush();
 
@@ -276,8 +315,6 @@ void MainWindow::slChangeStateChannel()
             lsWChannels[i].curr->setEnabled( f_state );
         }
     }
-
-
 }
 
 void MainWindow::slChangeVoltChannel(int value)
@@ -291,6 +328,16 @@ void MainWindow::slChangeVoltChannel(int value)
 
 void MainWindow::slStartHVScan()
 {
+    hvscan();
+
+    /*
+    uint32_t volStart = static_cast<uint32_t> (ui->sbVStart->value());
+    uint32_t volStop  = static_cast<uint32_t> (ui->sbVStop->value());
+    uint32_t volStep  = static_cast<uint32_t> (ui->sbVStep->value());
+    */
+    //std::thread thr_hvscan( hvscan );
+
+    /*
     qDebug() << "\n===============================";
     qDebug() << "Start HVScan ...";
 
@@ -308,22 +355,24 @@ void MainWindow::slStartHVScan()
     {
         // [1] set voltage
         qDebug() << "\n   Set voltage " << crVolt;
-        //hvs.setVoltageSystem( crVolt );
+        hvs.setVoltageSystem( crVolt );
         makeDirectory( name_path + QString::number(crVolt) );
 
         // [2] delay or monitoring current
         qDebug() << "   Delay ... ";
-        QThread::sleep( 3 );
+        std::this_thread::sleep_for(std::chrono::seconds(10));
+        //QThread::sleep( 1 );
 
         // [3] data acquisition
         //      [3.1] data processing
         //      [3.2] data visualization
         qDebug() << "   Run DAQ ...";
-        //startDAQ();
+        startDAQ();
     }
 
     qDebug() << "Stop HVScan ...";
     qDebug() << "===============================";
+    */
 }
 
 void MainWindow::slSetNamesChannels()
@@ -439,16 +488,16 @@ void MainWindow::slGetInfoChannels()
     hvs.getChannelParameters("IMon");
     hvs.getChannelParameters("Pw");
 
-    qDebug() << "\nInfo channels:";
+    //qDebug() << "\nInfo channels:";
     for (size_t i {0}; i < nmChannels; ++i) {
         if (0){
             qDebug() << "VMon =" << hvs.arrChan[i].VMon
                      << "IMon =" << hvs.arrChan[i].IMon
                      << "State =" << hvs.arrChan[i].Pw;
         }
+        //if (hvs.arrChan[i].Pw)  lsWChannels[i].state->click();
         lsWChannels[i].state->setChecked( hvs.arrChan[i].Pw );
         lsWChannels[i].volt->setValue( hvs.arrChan[i].VMon );
         lsWChannels[i].curr->setText( QString::number(hvs.arrChan[i].IMon) );
-
     }
 }

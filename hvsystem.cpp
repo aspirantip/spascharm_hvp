@@ -170,7 +170,7 @@ void HVSystem::getChannelName()
 
 void HVSystem::getChannelParameters(const std::string parName)
 {
-    qDebug() << "HVSystem::getChannelParameters() ...";
+    //qDebug() << "HVSystem::getChannelParameters() ...";
 
     if (!f_connect){
         qDebug() << "No connection to power supply!";
@@ -186,7 +186,7 @@ void HVSystem::getChannelParameters(const std::string parName)
 
     // [1] determine the type of the parameter value
     ret = CAENHV_GetChParamProp(handle, slot, listChan[0], parName.c_str(), "Type", &type);
-    qDebug() << "type =" << type;
+    //qDebug() << "type =" << type;
     if( ret != CAENHV_OK ) {
         qDebug() << QString("CAENHV_GetChParamProp: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
         return;
@@ -232,7 +232,7 @@ void HVSystem::getChannelParameters(const std::string parName)
 
 void HVSystem::setChannelParameters()
 {
-    qDebug() << "HVSystem::setChannelParameters() ...";
+    //qDebug() << "HVSystem::setChannelParameters() ...";
 
     if (!f_connect){
         qDebug() << "No connection to power supply!";
