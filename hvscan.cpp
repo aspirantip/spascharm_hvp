@@ -24,7 +24,7 @@ void HVScan::run()
     {
         // [1] set voltage
         qDebug() << "\n   Set voltage " << crVolt;
-        //hv_power->setVoltageSystem( crVolt );
+        hv_power->setVoltageSystem( crVolt );
         makeDirectory( name_path + QString::number(crVolt) );
 
         // [2] delay or monitoring current
@@ -36,7 +36,7 @@ void HVScan::run()
         //      [3.1] data processing
         //      [3.2] data visualization
         qDebug() << "   Run DAQ ...";
-        //startDAQ();
+        startDAQ();
     }
 
     qDebug() << "Stop HVScan ...";
@@ -64,17 +64,30 @@ void HVScan::makeDirectory(const QString name_dir)
     //RUN=run263_2000_st3_parallel_flow3
     qDebug() << "RUN =" << name_dir;
 
+    bool f_test {false};
+
     QString var_path ("/storage/runs");
+    QString parent_path;
+    if (f_test){
+        parent_path = "/home/plotnikov/";
+    }
+    else {
+        parent_path = var_path + "/cosmic18-05/";
+    }
 //    QString parent_path (var_path + "/cosmic18-05/");
-    QString parent_path ("/home/plotnikov/");
+//    QString parent_path ("/home/plotnikov/");
     parent_path += name_dir;
 
     QDir dir;
     bool f_state = QDir().mkpath( parent_path );
     if (f_state){
         QProcess procSetNameFile;
-        //procSetNameFile.start( "sh", QStringList() << "-c" << QString("echo 'RUN=%1' > %2/vars.sh").arg(name_dir).arg(var_path));
-        procSetNameFile.start( "sh", QStringList() << "-c" << QString("echo 'RUN=%1' > %2/file_name.text").arg(name_dir).arg(parent_path));
+        if (f_test){
+            procSetNameFile.start( "sh", QStringList() << "-c" << QString("echo 'RUN=%1' > %2/file_name.text").arg(name_dir).arg(parent_path));
+        }
+        else {
+            procSetNameFile.start( "sh", QStringList() << "-c" << QString("echo 'RUN=%1' > %2/vars.sh").arg(name_dir).arg(var_path));
+        }
         procSetNameFile.waitForFinished();
         procSetNameFile.close();
     }
@@ -86,7 +99,7 @@ void HVScan::makeDirectory(const QString name_dir)
 
 void HVScan::startDAQ()
 {
-    qDebug() << "MainWindow::startDAQ ...";
+    qDebug() << "HVScan::startDAQ ...";
 
     ssh_session s_ssh;
     s_ssh = ssh_new();
@@ -126,16 +139,19 @@ void HVScan::startDAQ()
                                 char buffer[1024];
                                 auto nbytes {0};
                                 auto start_time = std::chrono::high_resolution_clock::now();
+                                std::chrono::duration<double> elapsed;
                                 do {
+                                    //std::cout << "wait data ...\n" << std::endl;
                                     nbytes = ssh_channel_read(channel, buffer, sizeof(buffer), 0);
                                     fwrite(buffer, 1, nbytes, stdout);
+                                    //std::cout << "read data: " << nbytes << " bytes\n";
                                     std::cout.flush();
 
                                     auto stop_time = std::chrono::high_resolution_clock::now();
-                                    std::chrono::duration<double> elapsed = stop_time - start_time;
-                                    //std::cout << "Elapsed time: " << elapsed.count() << " s\n";
+                                    elapsed = stop_time - start_time;
+                                    std::cout << "Elapsed time: " << elapsed.count() << " s\n";
                                     if (elapsed.count() > 10)   break;
-                                } while (nbytes > 0);
+                                } while (nbytes > 0 || elapsed.count() < 10 );
                                 std::cout.flush();
 
                                 ssh_channel_send_eof(channel);
@@ -156,6 +172,8 @@ void HVScan::startDAQ()
         }
         ssh_free(s_ssh);
     }
+
+    //std::cout << "\nstop DAQ" << std::endl;
 }
 
 bool HVScan::verify_host(ssh_session session)
