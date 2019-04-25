@@ -22,6 +22,7 @@
 
 
 #include "hvsystem.h"
+#include "hvscan.h"
 
 
 #include <libssh/libssh.h>
@@ -65,7 +66,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    HVSystem hvs;
+    HVSystem hvp;
+    HVScan   hvs;
     QTimer timer;
     QTimer tmrInfoChannel;
 

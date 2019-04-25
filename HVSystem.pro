@@ -29,11 +29,13 @@ CONFIG += x86
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    hvsystem.cpp
+    hvsystem.cpp \
+    hvscan.cpp
 
 HEADERS += \
         mainwindow.h \
-    hvsystem.h
+    hvsystem.h \
+    hvscan.h
 
 FORMS += \
         mainwindow.ui

@@ -76,7 +76,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowTitle("SY1527");
 
     ui->statusBar->showMessage("Connecting to 172.22.4.1 ...", 1000);
-    timer.singleShot(1000, &hvs, &HVSystem::Login );
+    timer.singleShot(1000, &hvp, &HVSystem::Login );
+
 
     initGUI();
     createConnections();
@@ -84,6 +85,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    if (tmrInfoChannel.isActive())
+        tmrInfoChannel.stop();
     delete ui;
 }
 
@@ -133,8 +136,8 @@ void MainWindow::createConnections()
 {
     qDebug() << "MainWindow::CreateConnection()";
 
-    connect(ui->pbCrateMap,          &QPushButton::clicked, &hvs, &HVSystem::getCrateMap);
-    connect(ui->pbGetChannelName,    &QPushButton::clicked, &hvs, &HVSystem::getChannelName);
+    connect(ui->pbCrateMap,          &QPushButton::clicked, &hvp, &HVSystem::getCrateMap);
+    connect(ui->pbGetChannelName,    &QPushButton::clicked, &hvp, &HVSystem::getChannelName);
     connect(ui->pbSetVoltage,        &QPushButton::clicked, this, &MainWindow::slTest);
     connect(ui->pbStartHVScan,       &QPushButton::clicked, this, &MainWindow::slStartHVScan);
 
@@ -158,9 +161,9 @@ void MainWindow::createConnections()
     //connect(ui->sbVoltage_1, QOverload<int>::of(&QSpinBox::valueChanged), [](int val){qDebug() << "value =" << val;} );
     connect(ui->sbVoltage_1, &QSpinBox::editingFinished, [this](){qDebug() << "value volt_1 =" << ui->sbVoltage_1->value();});
 
-    connect(&hvs, &HVSystem::sgnLogged, this, &MainWindow::slConnectHVP);
-    //connect(&hvs, &HVSystem::sendMessage, ui->statusBar, &QStatusBar::showMessage);
-    connect(&hvs, &HVSystem::sendMessage, [this](QString str){ui->statusBar->showMessage(str, 5000);});
+    connect(&hvp, &HVSystem::sgnLogged, this, &MainWindow::slConnectHVP);
+    //connect(&hvp, &HVSystem::sendMessage, ui->statusBar, &QStatusBar::showMessage);
+    connect(&hvp, &HVSystem::sendMessage, [this](QString str){ui->statusBar->showMessage(str, 5000);});
 
 }
 
@@ -207,7 +210,7 @@ void MainWindow::hvscan()
     {
         // [1] set voltage
         qDebug() << "\n   Set voltage " << crVolt;
-        hvs.setVoltageSystem( crVolt );
+        hvp.setVoltageSystem( crVolt );
         makeDirectory( name_path + QString::number(crVolt) );
 
         // [2] delay or monitoring current
@@ -309,7 +312,7 @@ void MainWindow::slChangeStateChannel()
     for (uint8_t i {0}; i < nmChannels; ++i){
         if ( lsWChannels[i].state == p_chan){
             bool f_state = p_chan->isChecked();
-            hvs.setPowerChannel(i, f_state);
+            hvp.setPowerChannel(i, f_state);
 
             lsWChannels[i].volt->setEnabled( f_state );
             lsWChannels[i].curr->setEnabled( f_state );
@@ -328,7 +331,20 @@ void MainWindow::slChangeVoltChannel(int value)
 
 void MainWindow::slStartHVScan()
 {
-    hvscan();
+    uint32_t volStart = static_cast<uint32_t> (ui->sbVStart->value());
+    uint32_t volStop  = static_cast<uint32_t> (ui->sbVStop->value());
+    uint32_t volStep  = static_cast<uint32_t> (ui->sbVStep->value());
+
+    hvs.setHVPower(&hvp);
+    hvs.setVoltageRange(volStart, volStop);
+    hvs.setVoltageStep(volStep);
+    hvs.start();
+
+
+
+
+
+    //hvscan();
 
     /*
     uint32_t volStart = static_cast<uint32_t> (ui->sbVStart->value());
@@ -355,7 +371,7 @@ void MainWindow::slStartHVScan()
     {
         // [1] set voltage
         qDebug() << "\n   Set voltage " << crVolt;
-        hvs.setVoltageSystem( crVolt );
+        hvp.setVoltageSystem( crVolt );
         makeDirectory( name_path + QString::number(crVolt) );
 
         // [2] delay or monitoring current
@@ -380,7 +396,7 @@ void MainWindow::slSetNamesChannels()
     qDebug() << "MainWindow::slSetNamesChannels() ...";
 
     for (size_t i {0}; i < nmChannels; ++i) {
-        lsWChannels[i].state->setText( hvs.arrChan[i].name );
+        lsWChannels[i].state->setText( hvp.arrChan[i].name );
     }
 }
 
@@ -394,6 +410,7 @@ void MainWindow::slConnectHVP(bool state)
     }
     else {
         // show window with info about error
+//        ui->statusBar->showMessage();
 
     }
 }
@@ -484,20 +501,22 @@ void MainWindow::slGetInfoChannels()
     qDebug() << "MainWindow::slGetInfoChannels() ...";
 
 
-    hvs.getChannelParameters("VMon");
-    hvs.getChannelParameters("IMon");
-    hvs.getChannelParameters("Pw");
+    hvp.getChannelParameters("VMon");
+    hvp.getChannelParameters("IMon");
+    hvp.getChannelParameters("Pw");
 
     //qDebug() << "\nInfo channels:";
     for (size_t i {0}; i < nmChannels; ++i) {
         if (0){
-            qDebug() << "VMon =" << hvs.arrChan[i].VMon
-                     << "IMon =" << hvs.arrChan[i].IMon
-                     << "State =" << hvs.arrChan[i].Pw;
+            qDebug() << "VMon =" << hvp.arrChan[i].VMon
+                     << "IMon =" << hvp.arrChan[i].IMon
+                     << "State =" << hvp.arrChan[i].Pw;
         }
-        //if (hvs.arrChan[i].Pw)  lsWChannels[i].state->click();
-        lsWChannels[i].state->setChecked( hvs.arrChan[i].Pw );
-        lsWChannels[i].volt->setValue( hvs.arrChan[i].VMon );
-        lsWChannels[i].curr->setText( QString::number(hvs.arrChan[i].IMon) );
+
+        //qDebug() << lsWChannels[i].volt->hasFocus();
+        lsWChannels[i].state->setChecked( hvp.arrChan[i].Pw );
+        if (!lsWChannels[i].volt->hasFocus())
+            lsWChannels[i].volt->setValue( hvp.arrChan[i].VMon );
+        lsWChannels[i].curr->setText( QString::number(hvp.arrChan[i].IMon) );
     }
 }
