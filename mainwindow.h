@@ -25,7 +25,6 @@
 #include "hvscan.h"
 
 
-#include <libssh/libssh.h>
 
 
 #include <stdlib.h>
@@ -60,7 +59,6 @@ private slots:
     void slGetInfoChannels();
 
     void slConnectHVP(bool state);
-    void startDAQ();
 
     void slTest();
 
@@ -77,9 +75,6 @@ private:
 
     void initGUI();
     void createConnections();
-    void makeDirectory(QString name_dir);
-    void hvscan();
-    //void startDAQ();
     static void tmr_info();
 };
 
