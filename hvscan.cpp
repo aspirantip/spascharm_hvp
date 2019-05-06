@@ -61,7 +61,6 @@ void HVScan::setHVPower(HVSystem *power)
 
 void HVScan::makeDirectory(const QString name_dir)
 {
-    //RUN=run263_2000_st3_parallel_flow3
     qDebug() << "RUN =" << name_dir;
 
     bool f_test {false};
