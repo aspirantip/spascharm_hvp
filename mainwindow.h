@@ -54,7 +54,7 @@ public:
 private slots:
     void slStartHVScan();
     void slChangeStateChannel();
-    void slChangeVoltChannel(int value);
+    void slChangeVoltChannel();
     void slSetNamesChannels();
     void slGetInfoChannels();
 

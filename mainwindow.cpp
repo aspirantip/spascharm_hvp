@@ -91,7 +91,8 @@ void MainWindow::createConnections()
 
 
     //connect(ui->sbVoltage_1, QOverload<int>::of(&QSpinBox::valueChanged), [](int val){qDebug() << "value =" << val;} );
-    //connect(ui->sbVoltage_1, &QSpinBox::editingFinished, [this](){qDebug() << "value volt_1 =" << ui->sbVoltage_1->value();});
+    //connect(ui->sbVoltage_8, &QSpinBox::editingFinished, [this](){qDebug() << "value volt_1 =" << ui->sbVoltage_8->value();});
+/*
     connect(ui->sbVoltage_1,  QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::slChangeVoltChannel);
     connect(ui->sbVoltage_2,  QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::slChangeVoltChannel);
     connect(ui->sbVoltage_3,  QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::slChangeVoltChannel);
@@ -104,6 +105,21 @@ void MainWindow::createConnections()
     connect(ui->sbVoltage_10, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::slChangeVoltChannel);
     connect(ui->sbVoltage_11, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::slChangeVoltChannel);
     connect(ui->sbVoltage_12, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::slChangeVoltChannel);
+*/
+
+    connect(ui->sbVoltage_1,  &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
+    connect(ui->sbVoltage_2,  &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
+    connect(ui->sbVoltage_3,  &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
+    connect(ui->sbVoltage_4,  &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
+    connect(ui->sbVoltage_5,  &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
+    connect(ui->sbVoltage_6,  &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
+    connect(ui->sbVoltage_7,  &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
+    connect(ui->sbVoltage_8,  &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
+    connect(ui->sbVoltage_9,  &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
+    connect(ui->sbVoltage_10, &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
+    connect(ui->sbVoltage_11, &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
+    connect(ui->sbVoltage_12, &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
+
 
     connect(&hvp, &HVSystem::sgnLogged, this, &MainWindow::slConnectHVP);
     //connect(&hvp, &HVSystem::sendMessage, ui->statusBar, &QStatusBar::showMessage);
@@ -127,9 +143,12 @@ void MainWindow::slChangeStateChannel()
     }
 }
 
-void MainWindow::slChangeVoltChannel(int value)
+//void MainWindow::slChangeVoltChannel(int value)
+void MainWindow::slChangeVoltChannel()
 {
     qDebug() << "MainWindow::slChangeVoltChannel ...";
+
+    auto value = ui->sbVoltage_8->value();
 
     QSpinBox* p_wdgVolt = qobject_cast<QSpinBox*>( sender() );
     for (uint8_t i{0}; i < nmChannels; ++i) {
@@ -165,7 +184,14 @@ void MainWindow::slConnectHVP(bool state)
     qDebug() << "MainWindow::slConnectHVP() ...";
 
     if (state){
-        slSetNamesChannels();
+        slSetNamesChannels();        
+        for (uint8_t i {0}; i < nmChannels; ++i){
+            if ( hvp.arrChan[i].Pw ){
+                lsWChannels[i].state->setChecked(true );
+                lsWChannels[i].volt->setEnabled( true );
+                lsWChannels[i].curr->setEnabled( true );
+            }
+        }
         tmrInfoChannel.start(1000);
     }
     else {
