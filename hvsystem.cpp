@@ -29,7 +29,11 @@ void HVSystem::initSystem()
     getChannelName();   // set name widgets
 
 
-    // [3] ...
+    // [3] set active channels
+    getChannelParameters("Pw");
+    for (ushort i {0}; i < numChan; i++)
+        if (arrChan[i].Pw)
+            lstActiveChan.push_back(i);
 
 }
 
@@ -206,7 +210,7 @@ void HVSystem::getChannelParameters(const std::string parName)
         qDebug() << QString("CAENHV_GetChParam: %1 (num. %2)").arg(CAENHV_GetError(handle)).arg(ret);
     }
     else {
-        for(auto i {0}; i < numChan; i++ ){
+        for(auto i {0u}; i < numChan; i++ ){
             if (parName == "VMon"){
                 arrChan[i].VMon = fListParVal[i];
             }
@@ -220,8 +224,6 @@ void HVSystem::getChannelParameters(const std::string parName)
                     }
                 }
             }
-
-            // =================
         }
     }
 
