@@ -71,11 +71,8 @@ void MainWindow::createConnections()
 {
     qDebug() << "MainWindow::CreateConnection()";
 
-    connect(ui->pbCrateMap,          &QPushButton::clicked, &hvp, &HVSystem::getCrateMap);
-    connect(ui->pbGetChannelName,    &QPushButton::clicked, &hvp, &HVSystem::getChannelName);
-    connect(ui->pbSetVoltage,        &QPushButton::clicked, this, &MainWindow::slTest);
+    connect(ui->actionCrateMap,      &QAction::triggered,   &hvp, &HVSystem::getCrateMap);
     connect(ui->pbStartHVScan,       &QPushButton::clicked, this, &MainWindow::slStartHVScan);
-
     connect(&tmrInfoChannel, &QTimer::timeout, this, &MainWindow::slGetInfoChannels);
 
 
@@ -137,7 +134,7 @@ void MainWindow::slChangeVoltChannel(int value)
     QSpinBox* p_wdgVolt = qobject_cast<QSpinBox*>( sender() );
     for (uint8_t i{0}; i < nmChannels; ++i) {
         if ( lsWChannels[i].volt == p_wdgVolt){
-            hvp.setVoltageChannel(i, p_wdgVolt->value());
+            hvp.setVoltageChannel(i, value);
         }
     }
 }

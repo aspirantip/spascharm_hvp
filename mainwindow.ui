@@ -6,70 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1052</width>
-    <height>605</height>
+    <width>547</width>
+    <height>486</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="pbCrateMap">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>151</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>CrateMap</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pbSetVoltage">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>160</y>
-      <width>151</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Set Voltage</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pbGetChannelName">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>60</y>
-      <width>151</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>GetChannelName</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pbGetChannelVoltage">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>110</y>
-      <width>151</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>GetChannelVoltage</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>340</x>
       <y>10</y>
       <width>67</width>
       <height>21</height>
@@ -82,7 +30,7 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>340</x>
       <y>40</y>
       <width>67</width>
       <height>21</height>
@@ -95,7 +43,7 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>340</x>
       <y>70</y>
       <width>67</width>
       <height>21</height>
@@ -108,7 +56,7 @@
    <widget class="QSpinBox" name="sbVStart">
     <property name="geometry">
      <rect>
-      <x>630</x>
+      <x>410</x>
       <y>10</y>
       <width>89</width>
       <height>26</height>
@@ -130,7 +78,7 @@
    <widget class="QSpinBox" name="sbVStop">
     <property name="geometry">
      <rect>
-      <x>630</x>
+      <x>410</x>
       <y>40</y>
       <width>89</width>
       <height>26</height>
@@ -152,7 +100,7 @@
    <widget class="QSpinBox" name="sbVStep">
     <property name="geometry">
      <rect>
-      <x>630</x>
+      <x>410</x>
       <y>70</y>
       <width>89</width>
       <height>26</height>
@@ -174,7 +122,7 @@
    <widget class="QPushButton" name="pbStartHVScan">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>340</x>
       <y>110</y>
       <width>161</width>
       <height>41</height>
@@ -187,7 +135,7 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>231</x>
+      <x>11</x>
       <y>12</y>
       <width>291</width>
       <height>403</height>
@@ -556,10 +504,18 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1052</width>
+     <width>547</width>
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuMenu">
+    <property name="title">
+     <string>Menu</string>
+    </property>
+    <addaction name="actionCrateMap"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <addaction name="menuMenu"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -570,8 +526,38 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionCrateMap">
+   <property name="text">
+    <string>CrateMap</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionExit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>273</x>
+     <y>242</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
