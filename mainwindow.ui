@@ -595,7 +595,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QSpinBox" name="sbVStep_2">
+   <widget class="QSpinBox" name="sbHVSTime">
     <property name="geometry">
      <rect>
       <x>450</x>

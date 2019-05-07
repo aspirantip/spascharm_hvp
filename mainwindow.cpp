@@ -233,10 +233,12 @@ void MainWindow::slStartHVScan()
     auto volStart = static_cast<uint16_t> (ui->sbVStart->value());
     auto volStop  = static_cast<uint16_t> (ui->sbVStop->value());
     auto volStep  = static_cast<uint8_t> (ui->sbVStep->value());
+    auto hvs_time = ui->sbHVSTime->value();
 
     hvs.setHVPower(&hvp);
     hvs.setVoltageRange(volStart, volStop);
     hvs.setVoltageStep (volStep);
+    hvs.setTime(ui->sbHVSTime->value());
     hvs.start();
 }
 

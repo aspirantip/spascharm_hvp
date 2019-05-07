@@ -2,7 +2,7 @@
 
 HVScan::HVScan(QObject *parent)
 {
-
+    time = 10;
 }
 
 HVScan::~HVScan()
@@ -52,6 +52,11 @@ void HVScan::setVoltageRange(const uint16_t start, const uint16_t stop)
 void HVScan::setVoltageStep(const uint8_t step)
 {
     v_step = step;
+}
+
+void HVScan::setTime(const int hvs_time)
+{
+    time = hvs_time;
 }
 
 void HVScan::setHVPower(HVSystem *power)
@@ -149,8 +154,8 @@ void HVScan::startDAQ()
                                     auto stop_time = std::chrono::high_resolution_clock::now();
                                     elapsed = stop_time - start_time;
                                     std::cout << "Elapsed time: " << elapsed.count() << " s\n";
-                                    if (elapsed.count() > 10)   break;
-                                } while (nbytes > 0 || elapsed.count() < 10 );
+                                    if (elapsed.count() > time)   break;
+                                } while (nbytes > 0 || elapsed.count() < time );
                                 std::cout.flush();
 
                                 ssh_channel_send_eof(channel);

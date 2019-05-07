@@ -24,12 +24,14 @@ public:
     void run() override;
     void setVoltageRange(const uint16_t start, const uint16_t stop);
     void setVoltageStep (const uint8_t step);
+    void setTime (const int hvs_time);
     void setHVPower (HVSystem* power);
 
 private:
     int v_start;
     int v_stop;
     int v_step;
+    int time;
     HVSystem* hv_power;
 
 
