@@ -69,7 +69,7 @@
      <string/>
     </property>
     <property name="minimum">
-     <number>2000</number>
+     <number>1</number>
     </property>
     <property name="maximum">
      <number>2600</number>
@@ -91,7 +91,7 @@
      <string/>
     </property>
     <property name="minimum">
-     <number>2020</number>
+     <number>1</number>
     </property>
     <property name="maximum">
      <number>2600</number>
@@ -113,10 +113,13 @@
      <string/>
     </property>
     <property name="minimum">
-     <number>10</number>
+     <number>1</number>
     </property>
     <property name="maximum">
      <number>200</number>
+    </property>
+    <property name="singleStep">
+     <number>1</number>
     </property>
    </widget>
    <widget class="QPushButton" name="pbStartHVScan">

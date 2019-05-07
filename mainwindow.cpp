@@ -13,6 +13,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->showMessage("Connecting to 172.22.4.1 ...", 1000);
     timer.singleShot(1000, &hvp, &HVSystem::Login );
 
+    ui->sbVStart->setValue(1800);
+    ui->sbVStop->setValue(2400);
+    ui->sbVStep->setValue(10);
 
     initGUI();
     createConnections();
@@ -162,6 +165,7 @@ void MainWindow::createConnections()
     //connect(ui->sbVoltage_1, QOverload<int>::of(&QSpinBox::valueChanged), [](int val){qDebug() << "value =" << val;} );
     //connect(ui->sbVoltage_8, &QSpinBox::editingFinished, [this](){qDebug() << "value volt_1 =" << ui->sbVoltage_8->value();});
 /*
+*/
     connect(ui->sbVoltage_1,  QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::slChangeVoltChannel);
     connect(ui->sbVoltage_2,  QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::slChangeVoltChannel);
     connect(ui->sbVoltage_3,  QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::slChangeVoltChannel);
@@ -174,8 +178,7 @@ void MainWindow::createConnections()
     connect(ui->sbVoltage_10, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::slChangeVoltChannel);
     connect(ui->sbVoltage_11, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::slChangeVoltChannel);
     connect(ui->sbVoltage_12, QOverload<int>::of(&QSpinBox::valueChanged), this, &MainWindow::slChangeVoltChannel);
-*/
-
+/*
     connect(ui->sbVoltage_1,  &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
     connect(ui->sbVoltage_2,  &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
     connect(ui->sbVoltage_3,  &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
@@ -188,7 +191,7 @@ void MainWindow::createConnections()
     connect(ui->sbVoltage_10, &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
     connect(ui->sbVoltage_11, &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
     connect(ui->sbVoltage_12, &QSpinBox::editingFinished, this, &MainWindow::slChangeVoltChannel);
-
+*/
 
     connect(&hvp, &HVSystem::sgnLogged, this, &MainWindow::slConnectHVP);
     //connect(&hvp, &HVSystem::sendMessage, ui->statusBar, &QStatusBar::showMessage);
@@ -213,17 +216,15 @@ void MainWindow::slChangeStateChannel()
     }
 }
 
-//void MainWindow::slChangeVoltChannel(int value)
-void MainWindow::slChangeVoltChannel()
+void MainWindow::slChangeVoltChannel(int value)
+//void MainWindow::slChangeVoltChannel()
 {
     qDebug() << "MainWindow::slChangeVoltChannel ...";
-
-    auto value = ui->sbVoltage_8->value();
 
     QSpinBox* p_wdgVolt = qobject_cast<QSpinBox*>( sender() );
     for (uint8_t i{0}; i < nmChannels; ++i) {
         if ( lsWChannels[i].svolt == p_wdgVolt){
-            hvp.setVoltageChannel(i, value);
+            hvp.setVoltageChannel(i, p_wdgVolt->value());
         }
     }
 }

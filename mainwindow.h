@@ -25,8 +25,6 @@
 #include "hvscan.h"
 
 
-
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
@@ -55,7 +53,7 @@ public:
 private slots:
     void slStartHVScan();
     void slChangeStateChannel();
-    void slChangeVoltChannel();
+    void slChangeVoltChannel(int value);
     void slSetNamesChannels();
     void slGetInfoChannels();
 
