@@ -27,44 +27,113 @@ MainWindow::~MainWindow()
 
 void MainWindow::initGUI()
 {
+    ui->sbVoltage_1->setEnabled( false );
+    ui->sbVoltage_1->setKeyboardTracking(false);
+    ui->lblVoltage_1->setEnabled( false );
+    ui->lblCurrent_1->setEnabled( false );
     lsWChannels[0].state = ui->chbChannel_1;
-    lsWChannels[0].volt  = ui->sbVoltage_1;     ui->sbVoltage_1->setEnabled( false );   ui->sbVoltage_1->setKeyboardTracking(false);
-    lsWChannels[0].curr  = ui->lblCurrent_1;    ui->lblCurrent_1->setEnabled( false );
+    lsWChannels[0].svolt = ui->sbVoltage_1;
+    lsWChannels[0].mvolt = ui->lblVoltage_1;
+    lsWChannels[0].curr  = ui->lblCurrent_1;
+
+    ui->sbVoltage_2->setEnabled( false );
+    ui->sbVoltage_2->setKeyboardTracking(false);
+    ui->lblVoltage_2->setEnabled( false );
+    ui->lblCurrent_2->setEnabled( false );
     lsWChannels[1].state = ui->chbChannel_2;
-    lsWChannels[1].volt  = ui->sbVoltage_2;     ui->sbVoltage_2->setEnabled( false );   ui->sbVoltage_2->setKeyboardTracking(false);
-    lsWChannels[1].curr  = ui->lblCurrent_2;    ui->lblCurrent_2->setEnabled( false );
+    lsWChannels[1].svolt = ui->sbVoltage_2;
+    lsWChannels[1].mvolt = ui->lblVoltage_2;
+    lsWChannels[1].curr  = ui->lblCurrent_2;
+
+    ui->sbVoltage_3->setEnabled( false );
+    ui->sbVoltage_3->setKeyboardTracking(false);
+    ui->lblVoltage_3->setEnabled( false );
+    ui->lblCurrent_3->setEnabled( false );
     lsWChannels[2].state = ui->chbChannel_3;
-    lsWChannels[2].volt  = ui->sbVoltage_3;     ui->sbVoltage_3->setEnabled( false );   ui->sbVoltage_3->setKeyboardTracking(false);
-    lsWChannels[2].curr  = ui->lblCurrent_3;    ui->lblCurrent_3->setEnabled( false );
+    lsWChannels[2].svolt = ui->sbVoltage_3;
+    lsWChannels[2].mvolt = ui->lblVoltage_3;
+    lsWChannels[2].curr  = ui->lblCurrent_3;
+
+    ui->sbVoltage_4->setEnabled( false );
+    ui->sbVoltage_4->setKeyboardTracking(false);
+    ui->lblVoltage_4->setEnabled( false );
+    ui->lblCurrent_4->setEnabled( false );
     lsWChannels[3].state = ui->chbChannel_4;
-    lsWChannels[3].volt  = ui->sbVoltage_4;     ui->sbVoltage_4->setEnabled( false );   ui->sbVoltage_4->setKeyboardTracking(false);
-    lsWChannels[3].curr  = ui->lblCurrent_4;    ui->lblCurrent_4->setEnabled( false );
+    lsWChannels[3].svolt = ui->sbVoltage_4;
+    lsWChannels[3].mvolt = ui->lblVoltage_4;
+    lsWChannels[3].curr  = ui->lblCurrent_4;
+
+    ui->sbVoltage_5->setEnabled( false );
+    ui->sbVoltage_5->setKeyboardTracking(false);
+    ui->lblVoltage_5->setEnabled( false );
+    ui->lblCurrent_5->setEnabled( false );
     lsWChannels[4].state = ui->chbChannel_5;
-    lsWChannels[4].volt  = ui->sbVoltage_5;     ui->sbVoltage_5->setEnabled( false );   ui->sbVoltage_5->setKeyboardTracking(false);
-    lsWChannels[4].curr  = ui->lblCurrent_5;    ui->lblCurrent_5->setEnabled( false );
+    lsWChannels[4].svolt = ui->sbVoltage_5;
+    lsWChannels[4].mvolt = ui->lblVoltage_5;
+    lsWChannels[4].curr  = ui->lblCurrent_5;
+
+    ui->sbVoltage_6->setEnabled( false );
+    ui->sbVoltage_6->setKeyboardTracking(false);
+    ui->lblVoltage_6->setEnabled( false );
+    ui->lblCurrent_6->setEnabled( false );
     lsWChannels[5].state = ui->chbChannel_6;
-    lsWChannels[5].volt  = ui->sbVoltage_6;     ui->sbVoltage_6->setEnabled( false );   ui->sbVoltage_6->setKeyboardTracking(false);
-    lsWChannels[5].curr  = ui->lblCurrent_6;    ui->lblCurrent_6->setEnabled( false );
+    lsWChannels[5].svolt = ui->sbVoltage_6;
+    lsWChannels[5].mvolt = ui->lblVoltage_6;
+    lsWChannels[5].curr  = ui->lblCurrent_6;
+
+    ui->sbVoltage_7->setEnabled( false );
+    ui->sbVoltage_7->setKeyboardTracking(false);
+    ui->lblVoltage_7->setEnabled( false );
+    ui->lblCurrent_7->setEnabled( false );
     lsWChannels[6].state = ui->chbChannel_7;
-    lsWChannels[6].volt  = ui->sbVoltage_7;     ui->sbVoltage_7->setEnabled( false );   ui->sbVoltage_7->setKeyboardTracking(false);
-    lsWChannels[6].curr  = ui->lblCurrent_7;    ui->lblCurrent_7->setEnabled( false );
+    lsWChannels[6].svolt = ui->sbVoltage_7;
+    lsWChannels[6].mvolt = ui->lblVoltage_7;
+    lsWChannels[6].curr  = ui->lblCurrent_7;
+
+    ui->sbVoltage_8->setEnabled( false );
+    ui->sbVoltage_8->setKeyboardTracking(false);
+    ui->lblVoltage_8->setEnabled( false );
+    ui->lblCurrent_8->setEnabled( false );
     lsWChannels[7].state = ui->chbChannel_8;
-    lsWChannels[7].volt  = ui->sbVoltage_8;     ui->sbVoltage_8->setEnabled( false );   ui->sbVoltage_8->setKeyboardTracking(false);
-    lsWChannels[7].curr  = ui->lblCurrent_8;    ui->lblCurrent_8->setEnabled( false );
+    lsWChannels[7].svolt  = ui->sbVoltage_8;
+    lsWChannels[7].mvolt = ui->lblVoltage_8;
+    lsWChannels[7].curr  = ui->lblCurrent_8;
+
+    ui->sbVoltage_9->setEnabled( false );
+    ui->sbVoltage_9->setKeyboardTracking(false);
+    ui->lblVoltage_9->setEnabled( false );
+    ui->lblCurrent_9->setEnabled( false );
     lsWChannels[8].state = ui->chbChannel_9;
-    lsWChannels[8].volt  = ui->sbVoltage_9;     ui->sbVoltage_9->setEnabled( false );   ui->sbVoltage_9->setKeyboardTracking(false);
-    lsWChannels[8].curr  = ui->lblCurrent_9;    ui->lblCurrent_9->setEnabled( false );
+    lsWChannels[8].svolt  = ui->sbVoltage_9;
+    lsWChannels[8].mvolt = ui->lblVoltage_9;
+    lsWChannels[8].curr  = ui->lblCurrent_9;
+
+    ui->sbVoltage_10->setEnabled( false );
+    ui->sbVoltage_10->setKeyboardTracking(false);
+    ui->lblVoltage_10->setEnabled( false );
+    ui->lblCurrent_10->setEnabled( false );
     lsWChannels[9].state = ui->chbChannel_10;
-    lsWChannels[9].volt  = ui->sbVoltage_10;    ui->sbVoltage_10->setEnabled( false );  ui->sbVoltage_10->setKeyboardTracking(false);
-    lsWChannels[9].curr  = ui->lblCurrent_10;   ui->lblCurrent_10->setEnabled( false );
+    lsWChannels[9].svolt  = ui->sbVoltage_10;
+    lsWChannels[9].mvolt = ui->lblVoltage_10;
+    lsWChannels[9].curr  = ui->lblCurrent_10;
+
+    ui->sbVoltage_11->setEnabled( false );
+    ui->sbVoltage_11->setKeyboardTracking(false);
+    ui->lblVoltage_11->setEnabled( false );
+    ui->lblCurrent_11->setEnabled( false );
     lsWChannels[10].state = ui->chbChannel_11;
-    lsWChannels[10].volt  = ui->sbVoltage_11;   ui->sbVoltage_11->setEnabled( false );  ui->sbVoltage_11->setKeyboardTracking(false);
-    lsWChannels[10].curr  = ui->lblCurrent_11;  ui->lblCurrent_11->setEnabled( false );
+    lsWChannels[10].svolt  = ui->sbVoltage_11;
+    lsWChannels[10].mvolt = ui->lblVoltage_11;
+    lsWChannels[10].curr  = ui->lblCurrent_11;
+
+    ui->sbVoltage_12->setEnabled( false );
+    ui->sbVoltage_12->setKeyboardTracking(false);
+    ui->lblVoltage_12->setEnabled( false );
+    ui->lblCurrent_12->setEnabled( false );
     lsWChannels[11].state = ui->chbChannel_12;
-    lsWChannels[11].volt  = ui->sbVoltage_12;   ui->sbVoltage_12->setEnabled( false );  ui->sbVoltage_12->setKeyboardTracking(false);
-    lsWChannels[11].curr  = ui->lblCurrent_12;  ui->lblCurrent_12->setEnabled( false );
-
-
+    lsWChannels[11].svolt  = ui->sbVoltage_12;
+    lsWChannels[11].mvolt = ui->lblVoltage_12;
+    lsWChannels[11].curr  = ui->lblCurrent_12;
 }
 
 void MainWindow::createConnections()
@@ -137,7 +206,8 @@ void MainWindow::slChangeStateChannel()
             bool f_state = p_chan->isChecked();
             hvp.setPowerChannel(i, f_state);
 
-            lsWChannels[i].volt->setEnabled( f_state );
+            lsWChannels[i].svolt->setEnabled( f_state );
+            lsWChannels[i].mvolt->setEnabled( f_state );
             lsWChannels[i].curr->setEnabled( f_state );
         }
     }
@@ -152,7 +222,7 @@ void MainWindow::slChangeVoltChannel()
 
     QSpinBox* p_wdgVolt = qobject_cast<QSpinBox*>( sender() );
     for (uint8_t i{0}; i < nmChannels; ++i) {
-        if ( lsWChannels[i].volt == p_wdgVolt){
+        if ( lsWChannels[i].svolt == p_wdgVolt){
             hvp.setVoltageChannel(i, value);
         }
     }
@@ -187,9 +257,10 @@ void MainWindow::slConnectHVP(bool state)
         slSetNamesChannels();        
         for (uint8_t i {0}; i < nmChannels; ++i){
             if ( hvp.arrChan[i].Pw ){
-                lsWChannels[i].state->setChecked(true );
-                lsWChannels[i].volt->setEnabled( true );
-                lsWChannels[i].curr->setEnabled( true );
+                lsWChannels[i].state->setChecked(true);
+                lsWChannels[i].svolt->setEnabled(true);
+                lsWChannels[i].mvolt->setEnabled(true);
+                lsWChannels[i].curr->setEnabled (true);
             }
         }
         tmrInfoChannel.start(1000);
@@ -224,10 +295,8 @@ void MainWindow::slGetInfoChannels()
                      << "State =" << hvp.arrChan[i].Pw;
         }
 
-        //qDebug() << lsWChannels[i].volt->hasFocus();
         lsWChannels[i].state->setChecked( hvp.arrChan[i].Pw );
-        if (!lsWChannels[i].volt->hasFocus())
-            lsWChannels[i].volt->setValue( hvp.arrChan[i].VMon );
+        lsWChannels[i].mvolt->setText( QString::number(hvp.arrChan[i].VMon) + " V");
         lsWChannels[i].curr->setText( QString::number(hvp.arrChan[i].IMon) );
     }
 }

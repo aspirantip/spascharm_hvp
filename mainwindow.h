@@ -35,7 +35,8 @@
 
 struct wdgChannel{
     QCheckBox   *state  {nullptr};
-    QSpinBox    *volt   {nullptr};
+    QSpinBox    *svolt  {nullptr};
+    QLabel      *mvolt  {nullptr};
     QLabel      *curr   {nullptr};
 };
 

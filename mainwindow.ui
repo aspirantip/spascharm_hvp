@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>547</width>
+    <width>563</width>
     <height>486</height>
    </rect>
   </property>
@@ -17,46 +17,46 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>380</x>
       <y>10</y>
       <width>67</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Start V</string>
+     <string>Start</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>380</x>
       <y>40</y>
       <width>67</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Stop V</string>
+     <string>Stop</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>380</x>
       <y>70</y>
       <width>67</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>Step V</string>
+     <string>Step</string>
     </property>
    </widget>
    <widget class="QSpinBox" name="sbVStart">
     <property name="geometry">
      <rect>
-      <x>410</x>
+      <x>450</x>
       <y>10</y>
       <width>89</width>
       <height>26</height>
@@ -78,7 +78,7 @@
    <widget class="QSpinBox" name="sbVStop">
     <property name="geometry">
      <rect>
-      <x>410</x>
+      <x>450</x>
       <y>40</y>
       <width>89</width>
       <height>26</height>
@@ -100,7 +100,7 @@
    <widget class="QSpinBox" name="sbVStep">
     <property name="geometry">
      <rect>
-      <x>410</x>
+      <x>450</x>
       <y>70</y>
       <width>89</width>
       <height>26</height>
@@ -122,8 +122,8 @@
    <widget class="QPushButton" name="pbStartHVScan">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>110</y>
+      <x>380</x>
+      <y>140</y>
       <width>161</width>
       <height>41</height>
      </rect>
@@ -135,127 +135,13 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>11</x>
-      <y>12</y>
-      <width>291</width>
+      <x>10</x>
+      <y>10</y>
+      <width>361</width>
       <height>403</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Channel </string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Voltage</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Current</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QLabel" name="lblCurrent_1">
-       <property name="text">
-        <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="2">
-      <widget class="QLabel" name="lblCurrent_2">
-       <property name="text">
-        <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="2">
-      <widget class="QLabel" name="lblCurrent_3">
-       <property name="text">
-        <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="2">
-      <widget class="QLabel" name="lblCurrent_4">
-       <property name="text">
-        <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="2">
-      <widget class="QLabel" name="lblCurrent_5">
-       <property name="text">
-        <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="2">
-      <widget class="QLabel" name="lblCurrent_6">
-       <property name="text">
-        <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="2">
-      <widget class="QLabel" name="lblCurrent_7">
-       <property name="text">
-        <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="2">
-      <widget class="QLabel" name="lblCurrent_8">
-       <property name="text">
-        <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="2">
-      <widget class="QLabel" name="lblCurrent_9">
-       <property name="text">
-        <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="2">
-      <widget class="QLabel" name="lblCurrent_10">
-       <property name="text">
-        <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="11" column="2">
-      <widget class="QLabel" name="lblCurrent_11">
-       <property name="text">
-        <string>I_1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="12" column="2">
-      <widget class="QLabel" name="lblCurrent_12">
-       <property name="text">
-        <string>I_1</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0">
       <widget class="QCheckBox" name="chbChannel_1">
        <property name="text">
@@ -263,31 +149,17 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QCheckBox" name="chbChannel_2">
+     <item row="8" column="3">
+      <widget class="QLabel" name="lblCurrent_8">
        <property name="text">
-        <string>2 channel</string>
+        <string>I_1</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
-      <widget class="QCheckBox" name="chbChannel_3">
+     <item row="5" column="3">
+      <widget class="QLabel" name="lblCurrent_5">
        <property name="text">
-        <string>3 channel</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QCheckBox" name="chbChannel_4">
-       <property name="text">
-        <string>4 channel</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QCheckBox" name="chbChannel_5">
-       <property name="text">
-        <string>5 channel</string>
+        <string>I_1</string>
        </property>
       </widget>
      </item>
@@ -298,13 +170,6 @@
        </property>
       </widget>
      </item>
-     <item row="11" column="0">
-      <widget class="QCheckBox" name="chbChannel_11">
-       <property name="text">
-        <string>11 channel</string>
-       </property>
-      </widget>
-     </item>
      <item row="10" column="0">
       <widget class="QCheckBox" name="chbChannel_10">
        <property name="text">
@@ -312,10 +177,71 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="0">
-      <widget class="QCheckBox" name="chbChannel_9">
+     <item row="11" column="3">
+      <widget class="QLabel" name="lblCurrent_11">
        <property name="text">
-        <string>9 channel</string>
+        <string>I_1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="3">
+      <widget class="QLabel" name="lblCurrent_6">
+       <property name="text">
+        <string>I_1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Current</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QCheckBox" name="chbChannel_5">
+       <property name="text">
+        <string>5 channel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="3">
+      <widget class="QLabel" name="lblCurrent_3">
+       <property name="text">
+        <string>I_1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QSpinBox" name="sbVoltage_1">
+       <property name="suffix">
+        <string notr="true"> v</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>2600</number>
+       </property>
+       <property name="value">
+        <number>2000</number>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="3">
+      <widget class="QLabel" name="lblCurrent_10">
+       <property name="text">
+        <string>I_1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QCheckBox" name="chbChannel_4">
+       <property name="text">
+        <string>4 channel</string>
        </property>
       </widget>
      </item>
@@ -326,22 +252,15 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="0">
-      <widget class="QCheckBox" name="chbChannel_7">
+     <item row="9" column="3">
+      <widget class="QLabel" name="lblCurrent_9">
        <property name="text">
-        <string>7 channel</string>
+        <string>I_1</string>
        </property>
       </widget>
      </item>
-     <item row="6" column="0">
-      <widget class="QCheckBox" name="chbChannel_6">
-       <property name="text">
-        <string>6 channel</string>
-       </property>
-      </widget>
-     </item>
-     <item row="12" column="1">
-      <widget class="QSpinBox" name="sbVoltage_12">
+     <item row="8" column="1">
+      <widget class="QSpinBox" name="sbVoltage_8">
        <property name="suffix">
         <string notr="true"> v</string>
        </property>
@@ -353,8 +272,15 @@
        </property>
       </widget>
      </item>
-     <item row="11" column="1">
-      <widget class="QSpinBox" name="sbVoltage_11">
+     <item row="9" column="0">
+      <widget class="QCheckBox" name="chbChannel_9">
+       <property name="text">
+        <string>9 channel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QSpinBox" name="sbVoltage_4">
        <property name="suffix">
         <string notr="true"> v</string>
        </property>
@@ -379,45 +305,6 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="1">
-      <widget class="QSpinBox" name="sbVoltage_9">
-       <property name="suffix">
-        <string notr="true"> v</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="maximum">
-        <number>2600</number>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="1">
-      <widget class="QSpinBox" name="sbVoltage_8">
-       <property name="suffix">
-        <string notr="true"> v</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="maximum">
-        <number>2600</number>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QSpinBox" name="sbVoltage_7">
-       <property name="suffix">
-        <string notr="true"> v</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="maximum">
-        <number>2600</number>
-       </property>
-      </widget>
-     </item>
      <item row="6" column="1">
       <widget class="QSpinBox" name="sbVoltage_6">
        <property name="suffix">
@@ -431,8 +318,18 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
-      <widget class="QSpinBox" name="sbVoltage_5">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Channel </string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="1">
+      <widget class="QSpinBox" name="sbVoltage_11">
        <property name="suffix">
         <string notr="true"> v</string>
        </property>
@@ -444,21 +341,43 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QSpinBox" name="sbVoltage_4">
-       <property name="suffix">
-        <string notr="true"> v</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-       <property name="maximum">
-        <number>2600</number>
+     <item row="11" column="0">
+      <widget class="QCheckBox" name="chbChannel_11">
+       <property name="text">
+        <string>11 channel</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QSpinBox" name="sbVoltage_3">
+     <item row="1" column="3">
+      <widget class="QLabel" name="lblCurrent_1">
+       <property name="text">
+        <string>I_1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="3">
+      <widget class="QLabel" name="lblCurrent_12">
+       <property name="text">
+        <string>I_1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="3">
+      <widget class="QLabel" name="lblCurrent_7">
+       <property name="text">
+        <string>I_1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QCheckBox" name="chbChannel_2">
+       <property name="text">
+        <string>2 channel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QSpinBox" name="sbVoltage_7">
        <property name="suffix">
         <string notr="true"> v</string>
        </property>
@@ -483,8 +402,36 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QSpinBox" name="sbVoltage_1">
+     <item row="2" column="3">
+      <widget class="QLabel" name="lblCurrent_2">
+       <property name="text">
+        <string>I_1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QCheckBox" name="chbChannel_7">
+       <property name="text">
+        <string>7 channel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="3">
+      <widget class="QLabel" name="lblCurrent_4">
+       <property name="text">
+        <string>I_1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QCheckBox" name="chbChannel_3">
+       <property name="text">
+        <string>3 channel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QSpinBox" name="sbVoltage_5">
        <property name="suffix">
         <string notr="true"> v</string>
        </property>
@@ -496,7 +443,195 @@
        </property>
       </widget>
      </item>
+     <item row="12" column="1">
+      <widget class="QSpinBox" name="sbVoltage_12">
+       <property name="suffix">
+        <string notr="true"> v</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>2600</number>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QSpinBox" name="sbVoltage_3">
+       <property name="suffix">
+        <string notr="true"> v</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>2600</number>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QCheckBox" name="chbChannel_6">
+       <property name="text">
+        <string>6 channel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QSpinBox" name="sbVoltage_9">
+       <property name="suffix">
+        <string notr="true"> v</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="maximum">
+        <number>2600</number>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Set voltage</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Voltage</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLabel" name="lblVoltage_1">
+       <property name="text">
+        <string>volt</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLabel" name="lblVoltage_2">
+       <property name="text">
+        <string>volt</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QLabel" name="lblVoltage_3">
+       <property name="text">
+        <string>volt</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2">
+      <widget class="QLabel" name="lblVoltage_4">
+       <property name="text">
+        <string>volt</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="2">
+      <widget class="QLabel" name="lblVoltage_5">
+       <property name="text">
+        <string>volt</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="2">
+      <widget class="QLabel" name="lblVoltage_6">
+       <property name="text">
+        <string>volt</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="2">
+      <widget class="QLabel" name="lblVoltage_7">
+       <property name="text">
+        <string>volt</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="2">
+      <widget class="QLabel" name="lblVoltage_8">
+       <property name="text">
+        <string>volt</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="2">
+      <widget class="QLabel" name="lblVoltage_9">
+       <property name="text">
+        <string>volt</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="2">
+      <widget class="QLabel" name="lblVoltage_10">
+       <property name="text">
+        <string>volt</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="2">
+      <widget class="QLabel" name="lblVoltage_11">
+       <property name="text">
+        <string>volt</string>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="2">
+      <widget class="QLabel" name="lblVoltage_12">
+       <property name="text">
+        <string>volt</string>
+       </property>
+      </widget>
+     </item>
     </layout>
+   </widget>
+   <widget class="QSpinBox" name="sbVStep_2">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>100</y>
+      <width>89</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="suffix">
+     <string notr="true"> s</string>
+    </property>
+    <property name="prefix">
+     <string/>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>1000000</number>
+    </property>
+    <property name="value">
+     <number>300</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>100</y>
+      <width>67</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Time</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -504,7 +639,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>547</width>
+     <width>563</width>
      <height>22</height>
     </rect>
    </property>
