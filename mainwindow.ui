@@ -74,6 +74,9 @@
     <property name="maximum">
      <number>2600</number>
     </property>
+    <property name="value">
+     <number>1800</number>
+    </property>
    </widget>
    <widget class="QSpinBox" name="sbVStop">
     <property name="geometry">
@@ -95,6 +98,9 @@
     </property>
     <property name="maximum">
      <number>2600</number>
+    </property>
+    <property name="value">
+     <number>2400</number>
     </property>
    </widget>
    <widget class="QSpinBox" name="sbVStep">
@@ -120,6 +126,9 @@
     </property>
     <property name="singleStep">
      <number>1</number>
+    </property>
+    <property name="value">
+     <number>10</number>
     </property>
    </widget>
    <widget class="QPushButton" name="pbStartHVScan">
@@ -147,6 +156,9 @@
     <layout class="QGridLayout" name="gridLayout">
      <item row="1" column="0">
       <widget class="QCheckBox" name="chbChannel_1">
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="text">
         <string>1 channel</string>
        </property>
@@ -230,7 +242,7 @@
         <number>2600</number>
        </property>
        <property name="value">
-        <number>2000</number>
+        <number>0</number>
        </property>
       </widget>
      </item>
@@ -679,6 +691,37 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>chbChannel_1</tabstop>
+  <tabstop>chbChannel_2</tabstop>
+  <tabstop>chbChannel_3</tabstop>
+  <tabstop>chbChannel_4</tabstop>
+  <tabstop>chbChannel_5</tabstop>
+  <tabstop>chbChannel_6</tabstop>
+  <tabstop>chbChannel_7</tabstop>
+  <tabstop>chbChannel_8</tabstop>
+  <tabstop>chbChannel_9</tabstop>
+  <tabstop>chbChannel_10</tabstop>
+  <tabstop>chbChannel_11</tabstop>
+  <tabstop>chbChannel_12</tabstop>
+  <tabstop>sbVoltage_1</tabstop>
+  <tabstop>sbVoltage_2</tabstop>
+  <tabstop>sbVoltage_3</tabstop>
+  <tabstop>sbVoltage_4</tabstop>
+  <tabstop>sbVoltage_5</tabstop>
+  <tabstop>sbVoltage_6</tabstop>
+  <tabstop>sbVoltage_7</tabstop>
+  <tabstop>sbVoltage_8</tabstop>
+  <tabstop>sbVoltage_9</tabstop>
+  <tabstop>sbVoltage_10</tabstop>
+  <tabstop>sbVoltage_11</tabstop>
+  <tabstop>sbVoltage_12</tabstop>
+  <tabstop>sbVStart</tabstop>
+  <tabstop>sbVStop</tabstop>
+  <tabstop>sbVStep</tabstop>
+  <tabstop>sbHVSTime</tabstop>
+  <tabstop>pbStartHVScan</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
