@@ -19,15 +19,21 @@ void HVScan::run()
     name_path += QDateTime::currentDateTime().toString("/dd.MM.yyyy_hh:mm:ss/");
     qDebug() << "path:" << name_path;
 
+    // start voltage setting function
 
+    f_run = true;
     for (auto crVolt {v_start}; crVolt <= v_stop; crVolt += v_step)
     {
         // [1] set voltage
+        if (!f_run)
+            break;
         qDebug() << "\n   Set voltage " << crVolt;
         hv_power->setVoltageSystem( crVolt );
         makeDirectory( name_path + QString::number(crVolt) );
 
         // [2] delay or monitoring current
+        if (!f_run)
+            break;
         qDebug() << "   Delay ... ";
         //std::this_thread::sleep_for(std::chrono::seconds(3));
         QThread::sleep( 3 );
@@ -35,6 +41,8 @@ void HVScan::run()
         // [3] data acquisition
         //      [3.1] data processing
         //      [3.2] data visualization
+        if (!f_run)
+            break;
         qDebug() << "   Run DAQ ...";
         startDAQ();
     }
@@ -62,6 +70,13 @@ void HVScan::setTime(const int hvs_time)
 void HVScan::setHVPower(HVSystem *power)
 {
     hv_power = power;
+}
+
+void HVScan::stopHVScan()
+{
+    f_run = false;
+    qDebug() << "HVScan::stopHVScan ...";
+    qDebug() << "f_run =" << f_run;
 }
 
 void HVScan::makeDirectory(const QString name_dir)

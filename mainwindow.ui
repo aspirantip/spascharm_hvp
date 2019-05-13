@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>563</width>
+    <width>592</width>
     <height>486</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>410</x>
       <y>10</y>
       <width>67</width>
       <height>21</height>
@@ -30,7 +30,7 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>410</x>
       <y>40</y>
       <width>67</width>
       <height>21</height>
@@ -43,7 +43,7 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>410</x>
       <y>70</y>
       <width>67</width>
       <height>21</height>
@@ -56,7 +56,7 @@
    <widget class="QSpinBox" name="sbVStart">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>480</x>
       <y>10</y>
       <width>89</width>
       <height>26</height>
@@ -81,7 +81,7 @@
    <widget class="QSpinBox" name="sbVStop">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>480</x>
       <y>40</y>
       <width>89</width>
       <height>26</height>
@@ -106,7 +106,7 @@
    <widget class="QSpinBox" name="sbVStep">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>480</x>
       <y>70</y>
       <width>89</width>
       <height>26</height>
@@ -134,7 +134,7 @@
    <widget class="QPushButton" name="pbStartHVScan">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>410</x>
       <y>140</y>
       <width>161</width>
       <height>41</height>
@@ -613,7 +613,7 @@
    <widget class="QSpinBox" name="sbHVSTime">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>480</x>
       <y>100</y>
       <width>89</width>
       <height>26</height>
@@ -638,7 +638,7 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>410</x>
       <y>100</y>
       <width>67</width>
       <height>21</height>
@@ -648,13 +648,39 @@
      <string>Time</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pbStopHVScan">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>190</y>
+      <width>161</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Stop HVScan</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>10</y>
+      <width>20</width>
+      <height>401</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>563</width>
+     <width>592</width>
      <height>22</height>
     </rect>
    </property>

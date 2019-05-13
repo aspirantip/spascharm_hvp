@@ -26,6 +26,7 @@ public:
     void setVoltageStep (const uint8_t step);
     void setTime (const int hvs_time);
     void setHVPower (HVSystem* power);
+    void stopHVScan();
 
 private:
     int v_start;
@@ -33,6 +34,7 @@ private:
     int v_step;
     int time;
     HVSystem* hv_power;
+    volatile bool f_run;
 
 
     void makeDirectory(const QString name_dir);

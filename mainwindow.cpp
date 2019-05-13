@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->sbVStart->setValue(1800);
     ui->sbVStop->setValue(2400);
     ui->sbVStep->setValue(10);
+    ui->pbStopHVScan->setEnabled(false);
 
     initGUI();
     createConnections();
@@ -234,13 +235,23 @@ void MainWindow::slStartHVScan()
     auto volStart = static_cast<uint16_t> (ui->sbVStart->value());
     auto volStop  = static_cast<uint16_t> (ui->sbVStop->value());
     auto volStep  = static_cast<uint8_t> (ui->sbVStep->value());
-    auto hvs_time = ui->sbHVSTime->value();
+
+    ui->pbStartHVScan->setEnabled(false);
+    ui->pbStopHVScan->setEnabled(true);
 
     hvs.setHVPower(&hvp);
     hvs.setVoltageRange(volStart, volStop);
     hvs.setVoltageStep (volStep);
     hvs.setTime(ui->sbHVSTime->value());
     hvs.start();
+}
+
+void MainWindow::slStopHVScan()
+{
+    ui->pbStartHVScan->setEnabled(true);
+    ui->pbStopHVScan->setEnabled(false);
+
+    hvs.stopHVScan();
 }
 
 void MainWindow::slSetNamesChannels()
