@@ -146,6 +146,7 @@ void MainWindow::createConnections()
 
     connect(ui->actionCrateMap,      &QAction::triggered,   &hvp, &HVSystem::getCrateMap);
     connect(ui->pbStartHVScan,       &QPushButton::clicked, this, &MainWindow::slStartHVScan);
+    connect(ui->pbStopHVScan,        &QPushButton::clicked, this, &MainWindow::slStopHVScan);
     connect(&tmrInfoChannel, &QTimer::timeout, this, &MainWindow::slGetInfoChannels);
 
 
@@ -294,7 +295,7 @@ void MainWindow::slTest()
 
 void MainWindow::slGetInfoChannels()
 {
-    qDebug() << "MainWindow::slGetInfoChannels() ...";
+    //qDebug() << "MainWindow::slGetInfoChannels() ...";
 
 
     hvp.getChannelParameters("VMon");

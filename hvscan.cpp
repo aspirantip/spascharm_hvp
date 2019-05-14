@@ -20,35 +20,34 @@ void HVScan::run()
     qDebug() << "path:" << name_path;
 
     // start voltage setting function
-    qDebug() << "\n   Set start voltage " << v_start;
+    //qDebug() << "\n   Set start voltage " << v_start;
     hv_power->setVoltageSystem( v_start );
-    std::this_thread::sleep_for (std::chrono::seconds(45));
+    std::this_thread::sleep_for (std::chrono::seconds(5));
 
     f_run = true;
     for (auto crVolt {v_start}; crVolt <= v_stop; crVolt += v_step)
     {
-        // [1] data acquisition
-        //      [1.1] data processing
-        //      [1.2] data visualization
-        if (!f_run)
-            break;
-        qDebug() << "   Run DAQ ...";
-        startDAQ();
-
-        // [2] set voltage
+        // [1] set voltage
         if (!f_run)
             break;
         qDebug() << "\n   Set voltage " << crVolt;
         hv_power->setVoltageSystem( crVolt );
         makeDirectory( name_path + QString::number(crVolt) );
 
-        // [3] delay or monitoring current
+        // [2] delay or monitoring current
         if (!f_run)
             break;
         qDebug() << "   Delay ... ";
         //std::this_thread::sleep_for(std::chrono::seconds(3));
-        QThread::sleep( 5 );
+        QThread::sleep( 10 );
 
+        // [3] data acquisition
+        //      [3.1] data processing
+        //      [3.2] data visualization
+        if (!f_run)
+            break;
+        qDebug() << "   Run DAQ ...";
+        startDAQ();
 
     }
 
