@@ -231,6 +231,15 @@ void MainWindow::slChangeVoltChannel(int value)
     }
 }
 
+void MainWindow::slSetVoltActiveChannel(int value)
+{
+    for (uint8_t i{0}; i < nmChannels; ++i) {
+        if (lsWChannels[i].state->isChecked()){
+            lsWChannels[i].svolt->setValue(value);
+        }
+    }
+}
+
 void MainWindow::slStartHVScan()
 {
     auto volStart = static_cast<uint16_t> (ui->sbVStart->value());
@@ -253,6 +262,9 @@ void MainWindow::slStopHVScan()
     ui->pbStopHVScan->setEnabled(false);
 
     hvs.stopHVScan();
+
+
+
 }
 
 void MainWindow::slSetNamesChannels()

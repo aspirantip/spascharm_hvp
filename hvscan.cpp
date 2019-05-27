@@ -39,7 +39,7 @@ void HVScan::run()
             break;
         qDebug() << "   Delay ... ";
         //std::this_thread::sleep_for(std::chrono::seconds(3));
-        QThread::sleep( 10 );
+        QThread::sleep( 30 );
 
         // [3] data acquisition
         //      [3.1] data processing
