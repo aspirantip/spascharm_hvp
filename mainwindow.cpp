@@ -258,13 +258,30 @@ void MainWindow::slStartHVScan()
 
 void MainWindow::slStopHVScan()
 {
+    hvs.stopHVScan();
+    hvs.wait();
+
+    // 1) выключаем высокое напряжение
+    for (uint8_t i {0}; i < nmChannels; ++i){
+        if ( lsWChannels[i].state->isChecked()){
+            bool f_state = false;
+            hvp.setPowerChannel(i, f_state);
+
+            lsWChannels[i].svolt->setEnabled( f_state );
+            lsWChannels[i].mvolt->setEnabled( f_state );
+            lsWChannels[i].curr->setEnabled( f_state );
+        }
+    }
+
+    // 2) блокировка и разблокировка соответствующих виджетов (конечный автомат)
     ui->pbStartHVScan->setEnabled(true);
     ui->pbStopHVScan->setEnabled(false);
 
-    hvs.stopHVScan();
 
-
-
+    // 3) вывод уведомляющего message об окончании высоковольтного скана
+    QMessageBox msgBox;
+    msgBox.setText("HV-scan has been finished.");
+    msgBox.exec();
 }
 
 void MainWindow::slSetNamesChannels()
