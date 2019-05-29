@@ -199,6 +199,9 @@ void MainWindow::createConnections()
     //connect(&hvp, &HVSystem::sendMessage, ui->statusBar, &QStatusBar::showMessage);
     connect(&hvp, &HVSystem::sendMessage, [this](QString str){ui->statusBar->showMessage(str, 5000);});
 
+    connect(&hvs, &HVScan::finished, this, &MainWindow::slFinishHVScan);
+    connect(&hvs, &HVScan::sgnSendMessage, this, &MainWindow::slShowWindMessage);
+
 }
 
 void MainWindow::slChangeStateChannel()
@@ -260,28 +263,30 @@ void MainWindow::slStopHVScan()
 {
     hvs.stopHVScan();
     hvs.wait();
+}
+
+void MainWindow::slFinishHVScan()
+{
+    qDebug() << "MainWindow::slFinishHVScan [...]";
 
     // 1) выключаем высокое напряжение
-    for (uint8_t i {0}; i < nmChannels; ++i){
-        if ( lsWChannels[i].state->isChecked()){
-            bool f_state = false;
-            hvp.setPowerChannel(i, f_state);
-
-            lsWChannels[i].svolt->setEnabled( f_state );
-            lsWChannels[i].mvolt->setEnabled( f_state );
-            lsWChannels[i].curr->setEnabled( f_state );
-        }
-    }
+    powerOffSupply();
 
     // 2) блокировка и разблокировка соответствующих виджетов (конечный автомат)
     ui->pbStartHVScan->setEnabled(true);
     ui->pbStopHVScan->setEnabled(false);
+}
 
-
-    // 3) вывод уведомляющего message об окончании высоковольтного скана
-    QMessageBox msgBox;
-    msgBox.setText("HV-scan has been finished.");
-    msgBox.exec();
+void MainWindow::powerOffSupply()
+{
+    for (uint8_t i {0}; i < nmChannels; ++i){
+        if ( lsWChannels[i].state->isChecked()){
+            hvp.setPowerChannel(i, false);
+            lsWChannels[i].svolt->setEnabled( false );
+            lsWChannels[i].mvolt->setEnabled( false );
+            lsWChannels[i].curr->setEnabled( false );
+        }
+    }
 }
 
 void MainWindow::slSetNamesChannels()
@@ -340,7 +345,14 @@ void MainWindow::slGetInfoChannels()
         }
 
         lsWChannels[i].state->setChecked( hvp.arrChan[i].Pw );
-        lsWChannels[i].mvolt->setText( QString::number(hvp.arrChan[i].VMon) + " V");
+        lsWChannels[i].mvolt->setText( QString::number(hvp.arrChan[i].VMon) + " v");
         lsWChannels[i].curr->setText( QString::number(hvp.arrChan[i].IMon) );
     }
+}
+
+void MainWindow::slShowWindMessage(const QString message)
+{
+    QMessageBox msgBox;
+    msgBox.setText(message);
+    msgBox.exec();
 }
