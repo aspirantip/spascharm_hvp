@@ -54,11 +54,13 @@ public:
 private slots:
     void slStartHVScan();
     void slStopHVScan();
+    void slFinishHVScan();
     void slChangeStateChannel();
     void slChangeVoltChannel(int value);
     void slSetVoltActiveChannel(int value);
     void slSetNamesChannels();
     void slGetInfoChannels();
+    void slShowWindMessage(const QString message);
 
     void slConnectHVP(bool state);
 
@@ -77,7 +79,7 @@ private:
 
     void initGUI();
     void createConnections();
-    static void tmr_info();
+    void powerOffSupply();
 };
 
 #endif // MAINWINDOW_H

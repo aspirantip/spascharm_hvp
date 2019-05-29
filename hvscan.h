@@ -41,6 +41,13 @@ private:
     void startDAQ();
     bool verify_host(ssh_session session);
 
+    bool waitVoltage(const float volt);
+    void waitCurrent(float curr);
+
+signals:
+    void sgnSucceed();
+    void sgnSendMessage(QString string);
+
 };
 
 #endif // HVSCAN_H

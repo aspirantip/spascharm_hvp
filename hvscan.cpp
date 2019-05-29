@@ -20,7 +20,6 @@ void HVScan::run()
     qDebug() << "path:" << name_path;
 
     // start voltage setting function
-    //qDebug() << "\n   Set start voltage " << v_start;
     hv_power->setVoltageSystem( v_start );
     std::this_thread::sleep_for (std::chrono::seconds(5));
 
@@ -38,17 +37,29 @@ void HVScan::run()
         if (!f_run)
             break;
         qDebug() << "   Delay ... ";
-        //std::this_thread::sleep_for(std::chrono::seconds(3));
         QThread::sleep( 30 );
 
+        // [2.1] проверяем текущее напряжение, оно должно соответствовать задаваемому +-порог
+        if (!waitVoltage( crVolt )){
+            stopHVScan();
+            emit sgnSendMessage(QString("HV-scan has been stopped: voltage (%1) not set").arg(crVolt));
+        }
+        // [2.2] проверям ток в каналах /    +-порог
+
+
+        // если все проверки пройдены, то запускаем сбор данных
+
+
+
         // [3] data acquisition
-        //      [3.1] data processing
-        //      [3.2] data visualization
         if (!f_run)
             break;
         qDebug() << "   Run DAQ ...";
         startDAQ();
+    }
 
+    if (f_run){ // hv-scan completed successfully
+        emit sgnSendMessage("HV-scan was completed succesfully.");
     }
 
     qDebug() << "Stop HVScan ...";
@@ -260,5 +271,40 @@ bool HVScan::verify_host(ssh_session session)
 
     free(hash);
     return true;
+}
+
+bool HVScan::waitVoltage(const float volt)
+{
+    qDebug() << "HVScan::waitVoltage [...]";
+
+    const float thresh       {1.0};
+    const uint8_t nmChannels {12};
+    const uint8_t nmCheck    {5};
+
+
+    uint8_t cnt_check {0};
+    bool f_setVoltage {true};
+    do {
+        hv_power->getChannelParameters("Pw");
+        hv_power->getChannelParameters("VMon");
+        f_setVoltage = true;
+        for (size_t i {0}; i < nmChannels; ++i) {
+            if (hv_power->arrChan[i].Pw){
+                auto m_volt = hv_power->arrChan[i].VMon;
+                if (abs(volt-m_volt) > thresh){
+                    f_setVoltage = false;
+                    break;
+                }
+            }
+        }
+        QThread::sleep(1);
+    } while( !f_setVoltage && cnt_check++ < nmCheck );
+
+    return f_setVoltage;
+}
+
+void HVScan::waitCurrent(float curr)
+{
+
 }
 
