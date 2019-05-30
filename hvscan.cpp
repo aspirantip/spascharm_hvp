@@ -25,37 +25,73 @@ void HVScan::run()
     std::this_thread::sleep_for (std::chrono::seconds(5));
 
     f_run = true;
-    for (auto crVolt {v_start}; crVolt <= v_stop; crVolt += v_step)
+
+    if (v_stop > v_start)
     {
-        // [1] set voltage
-        if (!f_run)
-            break;
-        qDebug() << "\n   Set voltage " << crVolt;
-        hv_power->setVoltageSystem( crVolt );
-        makeDirectory( name_path + QString::number(crVolt) );
+        for (auto crVolt {v_stop}; crVolt >= v_start; crVolt -= v_step)
+        {
+            // [1] set voltage
+            if (!f_run)
+                break;
+            qDebug() << "\n   Set voltage " << crVolt;
+            hv_power->setVoltageSystem( crVolt );
+            makeDirectory( name_path + QString::number(crVolt) );
 
-        // [2] delay or monitoring current
-        if (!f_run)
-            break;
-        qDebug() << "   Delay ... ";
-        QThread::sleep( 30 );
+            // [2] delay or monitoring current
+            if (!f_run)
+                break;
+            qDebug() << "   Delay ... ";
+            QThread::sleep( 10 );
 
-        // [2.1] проверяем текущее напряжение, оно должно соответствовать задаваемому +-порог
-        if (!waitVoltage( crVolt )){
-            stopHVScan();
-            emit sgnSendMessage(QString("HV-scan has been stopped: voltage (%1) not set").arg(crVolt));
+            // [2.1] проверяем текущее напряжение, оно должно соответствовать задаваемому +-порог
+            if (!waitVoltage( crVolt )){
+                stopHVScan();
+                emit sgnSendMessage(QString("HV-scan has been stopped: voltage (%1) not set").arg(crVolt));
+            }
+            // [2.2] проверям ток в каналах /    +-порог
+            //waitCurrent(0);
+
+            // [3] data acquisition
+            if (!f_run)
+                break;
+            qDebug() << "   Run DAQ ...";
+            startDAQ();
         }
-        // [2.2] проверям ток в каналах /    +-порог
-        //waitCurrent(0);
-
-
-
-        // [3] data acquisition
-        if (!f_run)
-            break;
-        qDebug() << "   Run DAQ ...";
-        startDAQ();
     }
+    else {
+        for (auto crVolt {v_start}; crVolt <= v_stop; crVolt += v_step)
+        {
+            // [1] set voltage
+            if (!f_run)
+                break;
+            qDebug() << "\n   Set voltage " << crVolt;
+            hv_power->setVoltageSystem( crVolt );
+            makeDirectory( name_path + QString::number(crVolt) );
+
+            // [2] delay or monitoring current
+            if (!f_run)
+                break;
+            qDebug() << "   Delay ... ";
+            QThread::sleep( 30 );
+
+            // [2.1] проверяем текущее напряжение, оно должно соответствовать задаваемому +-порог
+            if (!waitVoltage( crVolt )){
+                stopHVScan();
+                emit sgnSendMessage(QString("HV-scan has been stopped: voltage (%1) not set").arg(crVolt));
+            }
+            // [2.2] проверям ток в каналах /    +-порог
+            //waitCurrent(0);
+
+            // [3] data acquisition
+            if (!f_run)
+                break;
+            qDebug() << "   Run DAQ ...";
+            startDAQ();
+        }
+    }
+
+
+
 
     if (f_run){ // hv-scan completed successfully
         emit sgnSendMessage("HV-scan was completed succesfully.");
@@ -295,12 +331,15 @@ bool HVScan::waitVoltage(const float volt)
         for (size_t i {0}; i < nmChannels; ++i) {
             if (hv_power->arrChan[i].Pw){
                 auto m_volt = hv_power->arrChan[i].VMon;
+                qDebug() << "volt (specified|measured):" << volt << " | " << m_volt;
+
                 if (abs(volt-m_volt) > thresh){
                     f_setVoltage = false;
                     break;
                 }
             }
         }
+        qDebug() << "f_setVoltage =" << f_setVoltage << " cnt_check =" << cnt_check;
         QThread::sleep(1);
     } while( !f_setVoltage && cnt_check++ < nmCheck );
 
