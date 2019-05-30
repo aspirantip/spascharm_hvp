@@ -2,7 +2,8 @@
 
 HVScan::HVScan(QObject *parent)
 {
-    time = 10;
+    time    = 0;
+    events  = 0;
 }
 
 HVScan::~HVScan()
@@ -78,6 +79,11 @@ void HVScan::setVoltageStep(const uint8_t step)
 void HVScan::setTime(const int hvs_time)
 {
     time = hvs_time;
+}
+
+void HVScan::setNumberEvents(const int nmEvents)
+{
+    events = nmEvents;
 }
 
 void HVScan::setHVPower(HVSystem *power)

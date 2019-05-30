@@ -25,6 +25,7 @@ public:
     void setVoltageRange(const uint16_t start, const uint16_t stop);
     void setVoltageStep (const uint8_t step);
     void setTime (const int hvs_time);
+    void setNumberEvents(const int nmEvents);
     void setHVPower (HVSystem* power);
     void stopHVScan();
 
@@ -33,6 +34,7 @@ private:
     int v_stop;
     int v_step;
     int time;
+    int events;
     HVSystem* hv_power;
     volatile bool f_run;
 

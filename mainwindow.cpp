@@ -138,6 +138,12 @@ void MainWindow::initGUI()
     lsWChannels[11].svolt  = ui->sbVoltage_12;
     lsWChannels[11].mvolt = ui->lblVoltage_12;
     lsWChannels[11].curr  = ui->lblCurrent_12;
+
+
+
+// don't work
+    ui->sbNEvents->setEnabled(false);
+
 }
 
 void MainWindow::createConnections()
@@ -255,7 +261,10 @@ void MainWindow::slStartHVScan()
     hvs.setHVPower(&hvp);
     hvs.setVoltageRange(volStart, volStop);
     hvs.setVoltageStep (volStep);
-    hvs.setTime(ui->sbHVSTime->value());
+    if (ui->sbNEvents->value() > 0)
+        hvs.setNumberEvents( ui->sbNEvents->value());
+    else
+        hvs.setTime(ui->sbHVSTime->value());
     hvs.start();
 }
 
