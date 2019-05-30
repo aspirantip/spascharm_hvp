@@ -90,9 +90,6 @@ void HVScan::run()
         }
     }
 
-
-
-
     if (f_run){ // hv-scan completed successfully
         emit sgnSendMessage("HV-scan was completed succesfully.");
     }
@@ -332,7 +329,6 @@ bool HVScan::waitVoltage(const float volt)
             if (hv_power->arrChan[i].Pw){
                 auto m_volt = hv_power->arrChan[i].VMon;
                 qDebug() << "volt (specified|measured):" << volt << " | " << m_volt;
-
                 if (abs(volt-m_volt) > thresh){
                     f_setVoltage = false;
                     break;
@@ -366,6 +362,5 @@ void HVScan::waitCurrent(float curr)
             }
         }
     }
-
 }
 
