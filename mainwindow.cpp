@@ -140,9 +140,16 @@ void MainWindow::initGUI()
     lsWChannels[11].curr  = ui->lblCurrent_12;
 
 
+    // for test
+    ui->sbVStart->setValue(180);
+    ui->sbVStop->setValue(200);
+    ui->sbHVSTime->setValue(15);
+
 
 // don't work
     ui->sbNEvents->setEnabled(false);
+    ui->sbNEvents->setMinimum(0);
+    ui->sbNEvents->setValue(0);
 
 }
 

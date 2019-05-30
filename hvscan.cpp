@@ -20,15 +20,18 @@ void HVScan::run()
     name_path += QDateTime::currentDateTime().toString("/dd.MM.yyyy_hh:mm:ss/");
     qDebug() << "path:" << name_path;
 
-    // start voltage setting function
-    hv_power->setVoltageSystem( v_start );
-    std::this_thread::sleep_for (std::chrono::seconds(5));
+
 
     f_run = true;
 
-    if (v_stop > v_start)
+    if (v_stop < v_start)
     {
-        for (auto crVolt {v_stop}; crVolt >= v_start; crVolt -= v_step)
+        qDebug() << "v_stop < v_start | v_start =" << v_start << "v_stop =" << "v_stop";
+
+        // start voltage setting function
+        hv_power->setVoltageSystem( v_stop );
+        std::this_thread::sleep_for (std::chrono::seconds(5));
+        for (auto crVolt {v_start}; crVolt >= v_stop; crVolt -= v_step)
         {
             // [1] set voltage
             if (!f_run)
@@ -59,6 +62,11 @@ void HVScan::run()
         }
     }
     else {
+        qDebug() << "v_stop > v_start | v_start =" << v_start << "v_stop =" << "v_stop";
+
+        // start voltage setting function
+        hv_power->setVoltageSystem( v_start );
+        std::this_thread::sleep_for (std::chrono::seconds(5));
         for (auto crVolt {v_start}; crVolt <= v_stop; crVolt += v_step)
         {
             // [1] set voltage
@@ -72,7 +80,7 @@ void HVScan::run()
             if (!f_run)
                 break;
             qDebug() << "   Delay ... ";
-            QThread::sleep( 30 );
+            QThread::sleep( 10 );
 
             // [2.1] проверяем текущее напряжение, оно должно соответствовать задаваемому +-порог
             if (!waitVoltage( crVolt )){
@@ -314,7 +322,7 @@ bool HVScan::waitVoltage(const float volt)
 {
     qDebug() << "HVScan::waitVoltage [...]";
 
-    const float thresh       {1.0};
+    const float thresh       {2.0};
     const uint8_t nmChannels {12};
     const uint8_t nmCheck    {5};
 
@@ -329,7 +337,7 @@ bool HVScan::waitVoltage(const float volt)
             if (hv_power->arrChan[i].Pw){
                 auto m_volt = hv_power->arrChan[i].VMon;
                 qDebug() << "volt (specified|measured):" << volt << " | " << m_volt;
-                if (abs(volt-m_volt) > thresh){
+                if (std::abs(volt-m_volt) > thresh){
                     f_setVoltage = false;
                     break;
                 }
