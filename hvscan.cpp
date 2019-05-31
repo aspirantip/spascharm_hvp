@@ -79,9 +79,12 @@ void HVScan::run()
                 stopHVScan();
                 emit sgnSendMessage(QString("HV-scan has been stopped: voltage (%1) not set").arg(crVolt));
             }
-            QThread::sleep( 10 );
             // [2.2] проверям ток в каналах /    +-порог
-            //waitCurrent(0);
+            if ( waitCurrent() ){
+                stopHVScan();
+                emit sgnSendMessage(QString("HV-scan has been stopped: over current threshold"));
+            }
+            //QThread::sleep( 10 );
 
             // [3] make directory for data
             makeDirectory( name_path + QString::number(crVolt) );
@@ -319,7 +322,7 @@ bool HVScan::waitVoltage(const float volt)
 
     const float thresh       {2.0};
     const uint8_t nmChannels {12};
-    const uint8_t nmCheck    {5};
+
     std::array<float, nmChannels> lastVolt;
     lastVolt.fill(0);
 
@@ -344,7 +347,8 @@ bool HVScan::waitVoltage(const float volt)
     } while( f_setVoltage );
 
     // [2] проверка на превышение разности значений заданного напряжения и измеренного
-    uint8_t cnt_check {0};
+    uint8_t cnt_check       {0};
+    const uint8_t nmCheck   {5};
     do {
         hv_power->getChannelParameters("Pw");
         hv_power->getChannelParameters("VMon");
@@ -366,25 +370,56 @@ bool HVScan::waitVoltage(const float volt)
     return f_setVoltage;
 }
 
-void HVScan::waitCurrent(float curr)
+bool HVScan::waitCurrent()
 {
-    // 1) проверить, что не превышаем порог
-    // 2) проверить, что ток стабилизировался
+    // 1) проверить, что ток стабилизировался
+    // 2) проверить, что не превышаем порог
 
     const float thresh       {1.0};
     const uint8_t nmChannels {12};
 
-    hv_power->getChannelParameters("Pw");
-    hv_power->getChannelParameters("IMon");
-    bool f_current = true;
-    for (size_t i {0}; i < nmChannels; ++i) {
-        if (hv_power->arrChan[i].Pw){
-            auto m_curr = hv_power->arrChan[i].IMon;
-            if (m_curr > thresh){
-                f_current = false;
-                break;
+    bool f_stabCurrent = true;
+    std::array<float, nmChannels> lastCurrent;
+    lastCurrent.fill(0);
+
+    // [1] проверка на стабилизацию тока
+    do {
+        hv_power->getChannelParameters("Pw");
+        hv_power->getChannelParameters("IMon");
+        for (size_t i {0}; i < nmChannels; ++i) {
+            if (hv_power->arrChan[i].Pw){
+                auto m_curr = hv_power->arrChan[i].IMon;
+                if (std::abs(m_curr-lastCurrent[i]) > 0.0f){
+                    lastCurrent[i] = m_curr;
+                    f_stabCurrent = false;
+                    break;
+                }
             }
         }
-    }
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }while(!f_stabCurrent);
+
+    // [2] проверяем ток на превышение заданного порога
+
+    uint8_t cnt_check       {0};
+    const uint8_t nmCheck   {5};
+    bool f_threshold        {false};
+    do {
+        hv_power->getChannelParameters("Pw");
+        hv_power->getChannelParameters("VMon");
+        f_threshold = false;
+        for (size_t i {0}; i < nmChannels; ++i) {
+            if (hv_power->arrChan[i].Pw){
+                auto m_curr = hv_power->arrChan[i].IMon;
+                if (std::abs(m_curr-lastCurrent[i]) > thresh){
+                    f_threshold = true;
+                    break;
+                }
+            }
+        }
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    } while( f_threshold && cnt_check++ < nmCheck );
+
+    return f_threshold;
 }
 

@@ -44,7 +44,7 @@ private:
     bool verify_host(ssh_session session);
 
     bool waitVoltage(const float volt);
-    void waitCurrent(float curr);
+    bool waitCurrent();
 
 signals:
     void sgnSucceed();
